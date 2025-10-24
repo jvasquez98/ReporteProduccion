@@ -1,2 +1,0 @@
-# ReporteProduccion
-metricas de producción
