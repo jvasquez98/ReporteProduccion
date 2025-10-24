@@ -1,0 +1,629 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Consolidado de Producción - 24/10/2025</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+        .grupo {
+            background: white;
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .grupo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        .grupo-titulo {
+            font-size: 2em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .grupo-titulo::before {
+            content: "👤";
+            font-size: 1.5em;
+        }
+        .tablas-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); /* SOLO CAMBIO: 600px → 500px */
+            gap: 25px;
+            margin-top: 20px;
+        }
+        .tabla-item {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .tabla-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+        }
+        .tabla-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .tabla-titulo {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .tabla-titulo::before {
+            content: "📊";
+            font-size: 1.1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95em;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        th {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+        td {
+            padding: 8px 8px;
+            border-bottom: 1px solid #ecf0f1;
+            color: #2c3e50;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tr:hover {
+            background-color: #e3f2fd;
+            transition: background-color 0.2s ease;
+        }
+        .nav {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .nav h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        .nav a {
+            display: block;
+            margin: 8px 0;
+            color: #3498db;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .nav a:hover {
+            background: #3498db;
+            color: white;
+            transform: translateX(-5px);
+        }
+        .nav-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1001;
+            font-size: 1.2em;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: white;
+            font-size: 0.9em;
+        }
+        @media (max-width: 768px) {
+            .tablas-container {
+                grid-template-columns: 1fr;
+            }
+            .nav {
+                position: static;
+                transform: none;
+                margin-bottom: 20px;
+                max-height: none;
+            }
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+    <div class="container">
+        <div class="header">
+            <h1>REPORTE CONSOLIDADO DE PRODUCCIÓN - 24/10/2025</h1>
+            <p>Reporte completo de métricas y desempeño por colaborador con corte a las 10AM</p>
+        </div>
+
+        <div class="nav">
+            <h3>🔍 Navegación Rápida</h3>
+<a href="#BRYAN">▶ BRYAN - S0 BBVA</a><a href="#LUIS">▶ LUIS - S0 IBK</a><a href="#LEONOR">▶ LEONOR - S1</a><a href="#KENNETH">▶ KENNETH - S1</a><a href="#JORDAN">▶ JORDAN - S2</a><a href="#JORGE">▶ JORGE - S2</a><a href="#SANDY">▶ SANDY - S3 - S4</a><a href="#MELINA">▶ MELINA - S3 - S4</a>
+        </div>
+
+        <div class="grupo" id="BRYAN">
+            <div class="grupo-titulo">BRYAN - S0 BBVA</div>
+            <div class="tablas-container">
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">1. Vista Principal</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>GESTIONES </th><th> N VLL</th><th>N PDP </th><th>MONTO PDP</th><th>% CIERRE </th></tr></thead><tbody><tr><td>JAIR MARTINEZ</td><td>26</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>VERONICA TASAYCO</td><td>25</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>VICTOR RAMIREZ</td><td>22</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>CRISTINA TICONA</td><td>21</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>DAVID SANCHEZ</td><td>21</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>GABRIELA APONTE</td><td>19</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>HAROLD FLORES</td><td>17</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>MALORY MONTEBLANCO</td><td>10</td><td>1</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>Total general</td><td>161</td><td>1</td><td>0</td><td>0</td><td>0.0%</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">2. Vista por Tipificación</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>CAN</th><th>DES</th><th>GRB</th><th>MCT</th><th>NOC</th><th>NTT</th><th>REN</th><th>TAT</th><th>VLL</th><th>Total</th></tr></thead><tbody><tr><td>JAIR MARTINEZ</td><td></td><td>1</td><td>4</td><td>1</td><td>16</td><td></td><td>4</td><td></td><td></td><td>26</td></tr><tr><td>VERONICA TASAYCO</td><td></td><td></td><td>1</td><td>2</td><td>19</td><td></td><td></td><td>3</td><td></td><td>25</td></tr><tr><td>VICTOR RAMIREZ</td><td></td><td></td><td></td><td></td><td>22</td><td></td><td></td><td></td><td></td><td>22</td></tr><tr><td>CRISTINA TICONA</td><td></td><td></td><td></td><td>1</td><td>15</td><td>1</td><td></td><td>4</td><td></td><td>21</td></tr><tr><td>DAVID SANCHEZ</td><td></td><td></td><td></td><td></td><td>20</td><td></td><td></td><td>1</td><td></td><td>21</td></tr><tr><td>GABRIELA APONTE</td><td></td><td>1</td><td></td><td>1</td><td>17</td><td></td><td></td><td></td><td></td><td>19</td></tr><tr><td>HAROLD FLORES</td><td>1</td><td></td><td></td><td>2</td><td>13</td><td></td><td></td><td>1</td><td></td><td>17</td></tr><tr><td>MALORY MONTEBLANCO</td><td></td><td></td><td></td><td>2</td><td>7</td><td></td><td></td><td></td><td>1</td><td>10</td></tr><tr><td>Total</td><td>1</td><td>2</td><td>5</td><td>9</td><td>129</td><td>1</td><td>4</td><td>9</td><td>1</td><td>161</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">3. Vista por Horas</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>7</th><th>8</th><th>Total</th></tr></thead><tbody><tr><td>JAIR MARTINEZ</td><td>14</td><td>12</td><td>26</td></tr><tr><td>VERONICA TASAYCO</td><td>16</td><td>9</td><td>25</td></tr><tr><td>VICTOR RAMIREZ</td><td>11</td><td>11</td><td>22</td></tr><tr><td>CRISTINA TICONA</td><td>11</td><td>10</td><td>21</td></tr><tr><td>DAVID SANCHEZ</td><td>12</td><td>9</td><td>21</td></tr><tr><td>GABRIELA APONTE</td><td>5</td><td>14</td><td>19</td></tr><tr><td>HAROLD FLORES</td><td>7</td><td>10</td><td>17</td></tr><tr><td>MALORY MONTEBLANCO</td><td>6</td><td>4</td><td>10</td></tr><tr><td>Total</td><td>82</td><td>79</td><td>161</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">4. Vista PDP's por Vencer</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>26/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>DAVID SANCHEZ</td><td>4000</td><td></td><td></td><td></td><td></td><td>4000</td></tr><tr><td>VICTOR RAMIREZ</td><td>600</td><td></td><td></td><td>1000</td><td>1800</td><td>3400</td></tr><tr><td>CRISTINA TICONA</td><td></td><td>1855</td><td></td><td>800</td><td></td><td>2655</td></tr><tr><td>HAROLD FLORES</td><td></td><td></td><td>650</td><td></td><td></td><td>650</td></tr><tr><td>Total</td><td>4600</td><td>1855</td><td>650</td><td>1800</td><td>1800</td><td>10705</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">5. Cantidad de PDP's</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>26/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>CRISTINA TICONA</td><td></td><td>2</td><td></td><td>1</td><td></td><td>3</td></tr><tr><td>VICTOR RAMIREZ</td><td>1</td><td></td><td></td><td>1</td><td>1</td><td>3</td></tr><tr><td>DAVID SANCHEZ</td><td>1</td><td></td><td></td><td></td><td></td><td>1</td></tr><tr><td>HAROLD FLORES</td><td></td><td></td><td>1</td><td></td><td></td><td>1</td></tr><tr><td>Total</td><td>2</td><td>2</td><td>1</td><td>2</td><td>1</td><td>8</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">6. Vista de VLL</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>HAROLD FLORES</td><td>3</td><td>2</td><td>3</td><td>8</td></tr><tr><td>MALORY MONTEBLANCO</td><td>4</td><td>4</td><td></td><td>8</td></tr><tr><td>CRISTINA TICONA</td><td>1</td><td>3</td><td>3</td><td>7</td></tr><tr><td>DAVID SANCHEZ</td><td>4</td><td>3</td><td></td><td>7</td></tr><tr><td>VERONICA TASAYCO</td><td>2</td><td>2</td><td></td><td>4</td></tr><tr><td>VICTOR RAMIREZ</td><td>1</td><td>1</td><td></td><td>2</td></tr><tr><td>GABRIELA APONTE</td><td></td><td>1</td><td></td><td>1</td></tr><tr><td>Total</td><td>15</td><td>16</td><td>6</td><td>37</td></tr></tbody>
+                </table>
+            </div>
+    
+            </div>
+        </div>
+    
+        <div class="grupo" id="LUIS">
+            <div class="grupo-titulo">LUIS - S0 IBK</div>
+            <div class="tablas-container">
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">1. Vista Principal</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>GESTIONES </th><th> N VLL</th><th> N PDP </th><th>MONTO PDP</th><th>% CIERRE </th></tr></thead><tbody><tr><td>GIANFRANCO PINEDO</td><td>26</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>KIARA CANEPA</td><td>17</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>DANIEL ZAPATA</td><td>16</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>ANABEL SIHUE</td><td>14</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>JUAN ALANOCCA</td><td>14</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>GERALDINE ARROYO</td><td>12</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>CARMEN PUMA</td><td>12</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>STWUAR MACURI</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>JAIME TUMIALAN</td><td>9</td><td>1</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>FRANCO HUAMANI</td><td>4</td><td>1</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>Total general</td><td>134</td><td>2</td><td>0</td><td>0</td><td>0.0%</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">2. Vista por Tipificación</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>CAN</th><th>DES</th><th>GRB</th><th>ILC</th><th>MCT</th><th>NOC</th><th>NTT</th><th>REN</th><th>RPP</th><th>TAT</th><th>VLL</th><th>Total</th></tr></thead><tbody><tr><td>GIANFRANCO PINEDO</td><td></td><td></td><td>4</td><td></td><td></td><td>17</td><td></td><td></td><td></td><td>5</td><td></td><td>26</td></tr><tr><td>KIARA CANEPA</td><td></td><td>5</td><td></td><td></td><td>1</td><td>3</td><td>7</td><td></td><td>1</td><td></td><td></td><td>17</td></tr><tr><td>DANIEL ZAPATA</td><td></td><td></td><td>1</td><td></td><td>1</td><td>13</td><td></td><td></td><td></td><td>1</td><td></td><td>16</td></tr><tr><td>ANABEL SIHUE</td><td></td><td>3</td><td></td><td>2</td><td>1</td><td>3</td><td>1</td><td>1</td><td></td><td>3</td><td></td><td>14</td></tr><tr><td>JUAN ALANOCCA</td><td></td><td></td><td>1</td><td></td><td>2</td><td>4</td><td></td><td>1</td><td></td><td>6</td><td></td><td>14</td></tr><tr><td>GERALDINE ARROYO</td><td></td><td>4</td><td></td><td></td><td>1</td><td>3</td><td>4</td><td></td><td></td><td></td><td></td><td>12</td></tr><tr><td>CARMEN PUMA</td><td>1</td><td></td><td></td><td></td><td>1</td><td>4</td><td></td><td></td><td></td><td>6</td><td></td><td>12</td></tr><tr><td>STWUAR MACURI</td><td></td><td></td><td>1</td><td></td><td>1</td><td>7</td><td></td><td></td><td></td><td>1</td><td></td><td>10</td></tr><tr><td>JAIME TUMIALAN</td><td></td><td></td><td></td><td></td><td>3</td><td>4</td><td></td><td></td><td></td><td>1</td><td>1</td><td>9</td></tr><tr><td>FRANCO HUAMANI</td><td></td><td></td><td></td><td></td><td>3</td><td></td><td></td><td></td><td></td><td></td><td>1</td><td>4</td></tr><tr><td>Total</td><td>1</td><td>12</td><td>7</td><td>2</td><td>14</td><td>58</td><td>12</td><td>2</td><td>1</td><td>23</td><td>2</td><td>134</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">3. Vista por Horas</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>7</th><th>8</th><th>Total</th></tr></thead><tbody><tr><td>GIANFRANCO PINEDO</td><td>25</td><td>1</td><td>26</td></tr><tr><td>KIARA CANEPA</td><td>14</td><td>3</td><td>17</td></tr><tr><td>DANIEL ZAPATA</td><td>16</td><td></td><td>16</td></tr><tr><td>ANABEL SIHUE</td><td>12</td><td>2</td><td>14</td></tr><tr><td>JUAN ALANOCCA</td><td>13</td><td>1</td><td>14</td></tr><tr><td>GERALDINE ARROYO</td><td>11</td><td>1</td><td>12</td></tr><tr><td>CARMEN PUMA</td><td>10</td><td>2</td><td>12</td></tr><tr><td>STWUAR MACURI</td><td>10</td><td></td><td>10</td></tr><tr><td>JAIME TUMIALAN</td><td>9</td><td></td><td>9</td></tr><tr><td>FRANCO HUAMANI</td><td>3</td><td>1</td><td>4</td></tr><tr><td>Total</td><td>123</td><td>11</td><td>134</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">4. Vista PDP's por Vencer</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>STWUAR MACURI</td><td>500</td><td></td><td>500</td></tr><tr><td>FRANCO HUAMANI</td><td></td><td>500</td><td>500</td></tr><tr><td>KIARA CANEPA</td><td>150</td><td></td><td>150</td></tr><tr><td>Total</td><td>650</td><td>500</td><td>1150</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">5. Cantidad de PDP's</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>STWUAR MACURI</td><td>1</td><td></td><td>1</td></tr><tr><td>KIARA CANEPA</td><td>1</td><td></td><td>1</td></tr><tr><td>FRANCO HUAMANI</td><td></td><td>1</td><td>1</td></tr><tr><td>Total</td><td>2</td><td>1</td><td>3</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">6. Vista de VLL</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>JAIME TUMIALAN</td><td>5</td><td>1</td><td>1</td><td>7</td></tr><tr><td>CARMEN PUMA</td><td>5</td><td>1</td><td>1</td><td>7</td></tr><tr><td>FRANCO HUAMANI</td><td>2</td><td>2</td><td>1</td><td>5</td></tr><tr><td>GIANFRANCO PINEDO</td><td>1</td><td>3</td><td></td><td>4</td></tr><tr><td>GERALDINE ARROYO</td><td>2</td><td></td><td></td><td>2</td></tr><tr><td>DANIEL ZAPATA</td><td></td><td>1</td><td></td><td>1</td></tr><tr><td>ANABEL SIHUE</td><td></td><td></td><td>1</td><td>1</td></tr><tr><td>JUAN ALANOCCA</td><td>1</td><td></td><td></td><td>1</td></tr><tr><td>KIARA CANEPA</td><td></td><td>1</td><td></td><td>1</td></tr><tr><td>STWUAR MACURI</td><td>1</td><td></td><td></td><td>1</td></tr><tr><td>Total</td><td>17</td><td>9</td><td>4</td><td>30</td></tr></tbody>
+                </table>
+            </div>
+    
+            </div>
+        </div>
+    
+        <div class="grupo" id="LEONOR">
+            <div class="grupo-titulo">LEONOR - S1</div>
+            <div class="tablas-container">
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">1. Vista Principal</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>GESTIONES </th><th> N VLL</th><th> N PDP </th><th>MONTO PDP</th><th>% CIERRE </th></tr></thead><tbody><tr><td>MILAGROS QUIO</td><td>37</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>JHOVANA TORRES</td><td>30</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>ALEJANDRA QUISPE</td><td>28</td><td>0</td><td>1</td><td>1000</td><td>16.7%</td></tr><tr><td>ALEJANDRA AVILA</td><td>15</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>ANALUCIA PONCE</td><td>12</td><td>0</td><td>1</td><td>1134</td><td>12.5%</td></tr><tr><td>ANTHONY TORRES</td><td>11</td><td>0</td><td>1</td><td>580</td><td>10.0%</td></tr><tr><td>FRANK PACORA</td><td>8</td><td>0</td><td>1</td><td>700</td><td>12.5%</td></tr><tr><td>Total general</td><td>141</td><td>0</td><td>4</td><td>3414</td><td>7.1%</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">2. Vista por Tipificación</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>CAN</th><th>GRB</th><th>ILC</th><th>MCT</th><th>NOC</th><th>PAR</th><th>PPC</th><th>PPM</th><th>RPP</th><th>TAT</th><th>Total</th></tr></thead><tbody><tr><td>MILAGROS QUIO</td><td></td><td></td><td></td><td>1</td><td>25</td><td></td><td></td><td></td><td></td><td>11</td><td>37</td></tr><tr><td>JHOVANA TORRES</td><td></td><td>1</td><td></td><td></td><td>22</td><td></td><td></td><td></td><td></td><td>7</td><td>30</td></tr><tr><td>ALEJANDRA QUISPE</td><td></td><td>2</td><td></td><td>1</td><td>19</td><td>1</td><td></td><td></td><td></td><td>5</td><td>28</td></tr><tr><td>ALEJANDRA AVILA</td><td></td><td>3</td><td>1</td><td></td><td>5</td><td></td><td></td><td></td><td>3</td><td>3</td><td>15</td></tr><tr><td>ANALUCIA PONCE</td><td></td><td></td><td></td><td>1</td><td>3</td><td></td><td>1</td><td></td><td></td><td>7</td><td>12</td></tr><tr><td>ANTHONY TORRES</td><td>2</td><td></td><td></td><td>1</td><td></td><td></td><td></td><td>1</td><td>1</td><td>6</td><td>11</td></tr><tr><td>FRANK PACORA</td><td>2</td><td></td><td></td><td></td><td></td><td></td><td></td><td>1</td><td>2</td><td>3</td><td>8</td></tr><tr><td>Total</td><td>4</td><td>6</td><td>1</td><td>4</td><td>74</td><td>1</td><td>1</td><td>2</td><td>6</td><td>42</td><td>141</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">3. Vista por Horas</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>7</th><th>8</th><th>Total</th></tr></thead><tbody><tr><td>MILAGROS QUIO</td><td>27</td><td>10</td><td>37</td></tr><tr><td>JHOVANA TORRES</td><td>14</td><td>16</td><td>30</td></tr><tr><td>ALEJANDRA QUISPE</td><td>17</td><td>11</td><td>28</td></tr><tr><td>ALEJANDRA AVILA</td><td>10</td><td>5</td><td>15</td></tr><tr><td>ANALUCIA PONCE</td><td>7</td><td>5</td><td>12</td></tr><tr><td>ANTHONY TORRES</td><td>6</td><td>5</td><td>11</td></tr><tr><td>FRANK PACORA</td><td>4</td><td>4</td><td>8</td></tr><tr><td>Total</td><td>85</td><td>56</td><td>141</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">4. Vista PDP's por Vencer</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>26/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>ALEJANDRA QUISPE</td><td></td><td>688</td><td></td><td>1500</td><td></td><td>2188</td></tr><tr><td>ANALUCIA PONCE</td><td></td><td></td><td></td><td>254</td><td>1500</td><td>1754</td></tr><tr><td>ALEJANDRA AVILA</td><td></td><td></td><td>1000</td><td>485</td><td></td><td>1485</td></tr><tr><td>JHOVANA TORRES</td><td></td><td>362</td><td></td><td></td><td>400</td><td>762</td></tr><tr><td>FRANK PACORA</td><td>700</td><td></td><td></td><td></td><td></td><td>700</td></tr><tr><td>ALEIDITH GUEVARA</td><td></td><td></td><td></td><td>500</td><td></td><td>500</td></tr><tr><td>ANTHONY TORRES</td><td>118</td><td></td><td></td><td></td><td></td><td>118</td></tr><tr><td>Total</td><td>818</td><td>1050</td><td>1000</td><td>2739</td><td>1900</td><td>7507</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">5. Cantidad de PDP's</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>26/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>JHOVANA TORRES</td><td></td><td>1</td><td></td><td></td><td>1</td><td>2</td></tr><tr><td>ALEJANDRA AVILA</td><td></td><td></td><td>1</td><td>1</td><td></td><td>2</td></tr><tr><td>ALEJANDRA QUISPE</td><td></td><td>1</td><td></td><td>1</td><td></td><td>2</td></tr><tr><td>ANALUCIA PONCE</td><td></td><td></td><td></td><td>1</td><td>1</td><td>2</td></tr><tr><td>ALEIDITH GUEVARA</td><td></td><td></td><td></td><td>1</td><td></td><td>1</td></tr><tr><td>ANTHONY TORRES</td><td>1</td><td></td><td></td><td></td><td></td><td>1</td></tr><tr><td>FRANK PACORA</td><td>1</td><td></td><td></td><td></td><td></td><td>1</td></tr><tr><td>Total</td><td>2</td><td>2</td><td>1</td><td>4</td><td>2</td><td>11</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">6. Vista de VLL</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>ANALUCIA PONCE</td><td>2</td><td></td><td>2</td><td>4</td></tr><tr><td>MILAGROS QUIO</td><td></td><td>3</td><td>1</td><td>4</td></tr><tr><td>JHOVANA TORRES</td><td>1</td><td>2</td><td></td><td>3</td></tr><tr><td>ANTHONY TORRES</td><td>1</td><td>1</td><td></td><td>2</td></tr><tr><td>ALEJANDRA QUISPE</td><td></td><td>1</td><td></td><td>1</td></tr><tr><td>Total</td><td>4</td><td>7</td><td>3</td><td>14</td></tr></tbody>
+                </table>
+            </div>
+    
+            </div>
+        </div>
+    
+        <div class="grupo" id="KENNETH">
+            <div class="grupo-titulo">KENNETH - S1</div>
+            <div class="tablas-container">
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">1. Vista Principal</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>GESTIONES </th><th> N VLL</th><th> N PDP </th><th>MONTO PDP</th><th>% CIERRE </th></tr></thead><tbody><tr><td>AURORA FAUSTOR</td><td>13</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>LUPITA HIDALGO</td><td>9</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>LUIS VALLADARES</td><td>7</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>MEDALITH NESTARES</td><td>6</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>EVELY TENORIO</td><td>4</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>LUIS CENTENO</td><td>4</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>URSULA CENTENO</td><td>4</td><td>0</td><td>1</td><td>500</td><td>50.0%</td></tr><tr><td>MARIA TINTAYA</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>Total general</td><td>50</td><td>0</td><td>1</td><td>500</td><td>4.8%</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">2. Vista por Tipificación</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>GRB</th><th>MCT</th><th>NOC</th><th>PAR</th><th>REN</th><th>RPP</th><th>TAT</th><th>Total</th></tr></thead><tbody><tr><td>AURORA FAUSTOR</td><td>5</td><td>2</td><td>2</td><td></td><td>1</td><td></td><td>3</td><td>13</td></tr><tr><td>LUPITA HIDALGO</td><td></td><td></td><td>8</td><td></td><td></td><td></td><td>1</td><td>9</td></tr><tr><td>LUIS VALLADARES</td><td></td><td></td><td>3</td><td></td><td>1</td><td>1</td><td>2</td><td>7</td></tr><tr><td>MEDALITH NESTARES</td><td></td><td></td><td>3</td><td></td><td></td><td></td><td>3</td><td>6</td></tr><tr><td>EVELY TENORIO</td><td></td><td>1</td><td>1</td><td></td><td></td><td></td><td>2</td><td>4</td></tr><tr><td>LUIS CENTENO</td><td></td><td>1</td><td>1</td><td></td><td>1</td><td></td><td>1</td><td>4</td></tr><tr><td>URSULA CENTENO</td><td>1</td><td>1</td><td></td><td>1</td><td></td><td>1</td><td></td><td>4</td></tr><tr><td>MARIA TINTAYA</td><td></td><td></td><td></td><td></td><td></td><td></td><td>3</td><td>3</td></tr><tr><td>Total</td><td>6</td><td>5</td><td>18</td><td>1</td><td>3</td><td>2</td><td>15</td><td>50</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">3. Vista por Horas</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>7</th><th>8</th><th>Total</th></tr></thead><tbody><tr><td>AURORA FAUSTOR</td><td>7</td><td>6</td><td>13</td></tr><tr><td>LUPITA HIDALGO</td><td>7</td><td>2</td><td>9</td></tr><tr><td>LUIS VALLADARES</td><td>4</td><td>3</td><td>7</td></tr><tr><td>MEDALITH NESTARES</td><td>2</td><td>4</td><td>6</td></tr><tr><td>EVELY TENORIO</td><td>2</td><td>2</td><td>4</td></tr><tr><td>LUIS CENTENO</td><td>2</td><td>2</td><td>4</td></tr><tr><td>URSULA CENTENO</td><td>3</td><td>1</td><td>4</td></tr><tr><td>MARIA TINTAYA</td><td>1</td><td>2</td><td>3</td></tr><tr><td>Total</td><td>28</td><td>22</td><td>50</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">4. Vista PDP's por Vencer</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>26/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>URSULA CENTENO</td><td>575</td><td></td><td></td><td>1400</td><td>2000</td><td>3975</td></tr><tr><td>MARIA TINTAYA</td><td></td><td></td><td>2000</td><td></td><td></td><td>2000</td></tr><tr><td>LUIS VALLADARES</td><td></td><td>2000</td><td></td><td></td><td></td><td>2000</td></tr><tr><td>EVELY TENORIO</td><td>1487</td><td></td><td></td><td></td><td></td><td>1487</td></tr><tr><td>AURORA FAUSTOR</td><td>600</td><td></td><td></td><td></td><td></td><td>600</td></tr><tr><td>LUPITA HIDALGO</td><td></td><td>280</td><td></td><td></td><td></td><td>280</td></tr><tr><td>Total</td><td>2662</td><td>2280</td><td>2000</td><td>1400</td><td>2000</td><td>10342</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">5. Cantidad de PDP's</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>26/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>URSULA CENTENO</td><td>2</td><td></td><td></td><td>1</td><td>1</td><td>4</td></tr><tr><td>EVELY TENORIO</td><td>2</td><td></td><td></td><td></td><td></td><td>2</td></tr><tr><td>MARIA TINTAYA</td><td></td><td></td><td>1</td><td></td><td></td><td>1</td></tr><tr><td>LUPITA HIDALGO</td><td></td><td>1</td><td></td><td></td><td></td><td>1</td></tr><tr><td>AURORA FAUSTOR</td><td>1</td><td></td><td></td><td></td><td></td><td>1</td></tr><tr><td>LUIS VALLADARES</td><td></td><td>1</td><td></td><td></td><td></td><td>1</td></tr><tr><td>Total</td><td>5</td><td>2</td><td>1</td><td>1</td><td>1</td><td>10</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">6. Vista de VLL</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>AURORA FAUSTOR</td><td>6</td><td>4</td><td>1</td><td>11</td></tr><tr><td>URSULA CENTENO</td><td>8</td><td>2</td><td></td><td>10</td></tr><tr><td>MEDALITH NESTARES</td><td></td><td>1</td><td>3</td><td>4</td></tr><tr><td>EVELY TENORIO</td><td></td><td></td><td>1</td><td>1</td></tr><tr><td>LUPITA HIDALGO</td><td></td><td>1</td><td></td><td>1</td></tr><tr><td>LUIS VALLADARES</td><td>1</td><td></td><td></td><td>1</td></tr><tr><td>Total</td><td>15</td><td>8</td><td>5</td><td>28</td></tr></tbody>
+                </table>
+            </div>
+    
+            </div>
+        </div>
+    
+        <div class="grupo" id="JORDAN">
+            <div class="grupo-titulo">JORDAN - S2</div>
+            <div class="tablas-container">
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">1. Vista Principal</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>GESTIONES </th><th> N VLL</th><th> N PDP </th><th>MONTO PDP</th><th>% CIERRE </th></tr></thead><tbody><tr><td>ROCIO TERRONES</td><td>18</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>ERIKA VILLAR</td><td>14</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>LUCERO JORDAN</td><td>10</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>JENY LAZARO</td><td>9</td><td>0</td><td>1</td><td>600</td><td>25.0%</td></tr><tr><td>JESSICA MELGAREJO</td><td>8</td><td>1</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>ERICK PORTILLA</td><td>5</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>NATALIA MARIN</td><td>3</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>Total general</td><td>67</td><td>1</td><td>1</td><td>600</td><td>6.2%</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">2. Vista por Tipificación</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>CAN</th><th>GRB</th><th>MCT</th><th>NOC</th><th>PAR</th><th>RPP</th><th>TAT</th><th>VLL</th><th>Total</th></tr></thead><tbody><tr><td>ROCIO TERRONES</td><td></td><td>6</td><td>1</td><td>11</td><td></td><td></td><td></td><td></td><td>18</td></tr><tr><td>ERIKA VILLAR</td><td></td><td></td><td></td><td>10</td><td></td><td></td><td>4</td><td></td><td>14</td></tr><tr><td>LUCERO JORDAN</td><td></td><td>1</td><td></td><td>7</td><td></td><td></td><td>2</td><td></td><td>10</td></tr><tr><td>JENY LAZARO</td><td></td><td></td><td></td><td>5</td><td>1</td><td></td><td>3</td><td></td><td>9</td></tr><tr><td>JESSICA MELGAREJO</td><td>1</td><td></td><td></td><td>4</td><td></td><td>1</td><td>1</td><td>1</td><td>8</td></tr><tr><td>ERICK PORTILLA</td><td></td><td></td><td></td><td>4</td><td></td><td></td><td>1</td><td></td><td>5</td></tr><tr><td>NATALIA MARIN</td><td></td><td>1</td><td></td><td>1</td><td></td><td></td><td>1</td><td></td><td>3</td></tr><tr><td>Total</td><td>1</td><td>8</td><td>1</td><td>42</td><td>1</td><td>1</td><td>12</td><td>1</td><td>67</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">3. Vista por Horas</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>7</th><th>8</th><th>Total</th></tr></thead><tbody><tr><td>ROCIO TERRONES</td><td>2</td><td>16</td><td>18</td></tr><tr><td>ERIKA VILLAR</td><td>1</td><td>13</td><td>14</td></tr><tr><td>LUCERO JORDAN</td><td>3</td><td>7</td><td>10</td></tr><tr><td>JENY LAZARO</td><td>2</td><td>7</td><td>9</td></tr><tr><td>JESSICA MELGAREJO</td><td>2</td><td>6</td><td>8</td></tr><tr><td>ERICK PORTILLA</td><td></td><td>5</td><td>5</td></tr><tr><td>NATALIA MARIN</td><td></td><td>3</td><td>3</td></tr><tr><td>Total</td><td>10</td><td>57</td><td>67</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">4. Vista PDP's por Vencer</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>27/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>ERIKA VILLAR</td><td></td><td>2134</td><td>1960</td><td>4094</td></tr><tr><td>MERLY CORONEL</td><td></td><td></td><td>700</td><td>700</td></tr><tr><td>NATALIA MARIN</td><td>600</td><td></td><td></td><td>600</td></tr><tr><td>JESSICA MELGAREJO</td><td>300</td><td></td><td></td><td>300</td></tr><tr><td>JENY LAZARO</td><td>297</td><td></td><td></td><td>297</td></tr><tr><td>LUCERO JORDAN</td><td>245</td><td></td><td></td><td>245</td></tr><tr><td>Total</td><td>1442</td><td>2134</td><td>2660</td><td>6236</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">5. Cantidad de PDP's</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>27/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>ERIKA VILLAR</td><td></td><td>1</td><td>3</td><td>4</td></tr><tr><td>LUCERO JORDAN</td><td>1</td><td></td><td></td><td>1</td></tr><tr><td>NATALIA MARIN</td><td>1</td><td></td><td></td><td>1</td></tr><tr><td>JENY LAZARO</td><td>1</td><td></td><td></td><td>1</td></tr><tr><td>JESSICA MELGAREJO</td><td>1</td><td></td><td></td><td>1</td></tr><tr><td>MERLY CORONEL</td><td></td><td></td><td>1</td><td>1</td></tr><tr><td>Total</td><td>4</td><td>1</td><td>4</td><td>9</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">6. Vista de VLL</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>ROCIO TERRONES</td><td>3</td><td>1</td><td>1</td><td>5</td></tr><tr><td>JESSICA MELGAREJO</td><td>5</td><td></td><td></td><td>5</td></tr><tr><td>LUCERO JORDAN</td><td>2</td><td>1</td><td>1</td><td>4</td></tr><tr><td>NATALIA MARIN</td><td>1</td><td>2</td><td></td><td>3</td></tr><tr><td>ERIKA VILLAR</td><td>2</td><td></td><td></td><td>2</td></tr><tr><td>Total</td><td>13</td><td>4</td><td>2</td><td>19</td></tr></tbody>
+                </table>
+            </div>
+    
+            </div>
+        </div>
+    
+        <div class="grupo" id="JORGE">
+            <div class="grupo-titulo">JORGE - S2</div>
+            <div class="tablas-container">
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">1. Vista Principal</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>GESTIONES </th><th> N VLL</th><th> N PDP </th><th>MONTO PDP</th><th>% CIERRE </th></tr></thead><tbody><tr><td>SARITA GARAY</td><td>24</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>MISHEL MORALES</td><td>22</td><td>0</td><td>1</td><td>1000</td><td>33.3%</td></tr><tr><td>GENESIS VICUNA</td><td>19</td><td>0</td><td>2</td><td>910</td><td>28.6%</td></tr><tr><td>MARIA HUARCAYA</td><td>16</td><td>0</td><td>1</td><td>300</td><td>16.7%</td></tr><tr><td>JHONATAN CHAVEZ</td><td>14</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>CHRISTIAN ALVARADO</td><td>13</td><td>0</td><td>2</td><td>667</td><td>50.0%</td></tr><tr><td>ANDERSON RODRIGUEZ</td><td>13</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>FRANS TACSI</td><td>11</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>Total general</td><td>132</td><td>0</td><td>6</td><td>2877</td><td>24.0%</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">2. Vista por Tipificación</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>CAN</th><th>DES</th><th>INV</th><th>MCT</th><th>NOC</th><th>NTT</th><th>PPC</th><th>PPM</th><th>REN</th><th>RPP</th><th>TAT</th><th>Total</th></tr></thead><tbody><tr><td>SARITA GARAY</td><td></td><td>5</td><td></td><td>1</td><td>14</td><td>2</td><td></td><td></td><td>1</td><td></td><td>1</td><td>24</td></tr><tr><td>MISHEL MORALES</td><td></td><td>2</td><td></td><td>2</td><td>12</td><td>3</td><td>1</td><td></td><td></td><td>1</td><td>1</td><td>22</td></tr><tr><td>GENESIS VICUNA</td><td></td><td></td><td>1</td><td>3</td><td>8</td><td></td><td>1</td><td>1</td><td></td><td>1</td><td>4</td><td>19</td></tr><tr><td>MARIA HUARCAYA</td><td></td><td>1</td><td></td><td></td><td>8</td><td>1</td><td></td><td>1</td><td></td><td>2</td><td>3</td><td>16</td></tr><tr><td>JHONATAN CHAVEZ</td><td>1</td><td></td><td></td><td></td><td>13</td><td></td><td></td><td></td><td></td><td></td><td></td><td>14</td></tr><tr><td>CHRISTIAN ALVARADO</td><td></td><td>2</td><td></td><td></td><td>7</td><td></td><td></td><td>2</td><td></td><td>1</td><td>1</td><td>13</td></tr><tr><td>ANDERSON RODRIGUEZ</td><td></td><td></td><td></td><td>2</td><td>10</td><td></td><td></td><td></td><td></td><td></td><td>1</td><td>13</td></tr><tr><td>FRANS TACSI</td><td></td><td></td><td></td><td>1</td><td>9</td><td></td><td></td><td></td><td></td><td></td><td>1</td><td>11</td></tr><tr><td>Total</td><td>1</td><td>10</td><td>1</td><td>9</td><td>81</td><td>6</td><td>2</td><td>4</td><td>1</td><td>5</td><td>12</td><td>132</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">3. Vista por Horas</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>7</th><th>8</th><th>Total</th></tr></thead><tbody><tr><td>SARITA GARAY</td><td>11</td><td>13</td><td>24</td></tr><tr><td>MISHEL MORALES</td><td>13</td><td>9</td><td>22</td></tr><tr><td>GENESIS VICUNA</td><td>12</td><td>7</td><td>19</td></tr><tr><td>MARIA HUARCAYA</td><td>6</td><td>10</td><td>16</td></tr><tr><td>JHONATAN CHAVEZ</td><td>12</td><td>2</td><td>14</td></tr><tr><td>CHRISTIAN ALVARADO</td><td>9</td><td>4</td><td>13</td></tr><tr><td>ANDERSON RODRIGUEZ</td><td>9</td><td>4</td><td>13</td></tr><tr><td>FRANS TACSI</td><td>3</td><td>8</td><td>11</td></tr><tr><td>Total</td><td>75</td><td>57</td><td>132</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">4. Vista PDP's por Vencer</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>26/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>JHONATAN CHAVEZ</td><td>1400</td><td></td><td></td><td>600</td><td>700</td><td>2700</td></tr><tr><td>MARIA HUARCAYA</td><td>1300</td><td></td><td>310</td><td>1000</td><td></td><td>2610</td></tr><tr><td>MISHEL MORALES</td><td>1000</td><td></td><td></td><td>1500</td><td></td><td>2500</td></tr><tr><td>FRANS TACSI</td><td></td><td></td><td></td><td></td><td>600</td><td>600</td></tr><tr><td>ANDERSON RODRIGUEZ</td><td></td><td></td><td></td><td></td><td>400</td><td>400</td></tr><tr><td>CHRISTIAN ALVARADO</td><td></td><td>350</td><td></td><td></td><td></td><td>350</td></tr><tr><td>Total</td><td>3700</td><td>350</td><td>310</td><td>3100</td><td>1700</td><td>9160</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">5. Cantidad de PDP's</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>26/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>MARIA HUARCAYA</td><td>2</td><td></td><td>1</td><td>1</td><td></td><td>4</td></tr><tr><td>JHONATAN CHAVEZ</td><td>1</td><td></td><td></td><td>1</td><td>1</td><td>3</td></tr><tr><td>MISHEL MORALES</td><td>1</td><td></td><td></td><td>1</td><td></td><td>2</td></tr><tr><td>CHRISTIAN ALVARADO</td><td></td><td>1</td><td></td><td></td><td></td><td>1</td></tr><tr><td>ANDERSON RODRIGUEZ</td><td></td><td></td><td></td><td></td><td>1</td><td>1</td></tr><tr><td>FRANS TACSI</td><td></td><td></td><td></td><td></td><td>1</td><td>1</td></tr><tr><td>Total</td><td>4</td><td>1</td><td>1</td><td>3</td><td>3</td><td>12</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">6. Vista de VLL</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>CHRISTIAN ALVARADO</td><td>3</td><td></td><td>2</td><td>1</td><td>6</td></tr><tr><td>MARIA HUARCAYA</td><td>3</td><td></td><td>2</td><td></td><td>5</td></tr><tr><td>SARITA GARAY</td><td>3</td><td></td><td>1</td><td></td><td>4</td></tr><tr><td>MISHEL MORALES</td><td>1</td><td>1</td><td></td><td>1</td><td>3</td></tr><tr><td>JHONATAN CHAVEZ</td><td>2</td><td></td><td>1</td><td></td><td>3</td></tr><tr><td>GENESIS VICUNA</td><td>2</td><td></td><td>1</td><td></td><td>3</td></tr><tr><td>FRANS TACSI</td><td></td><td></td><td></td><td>1</td><td>1</td></tr><tr><td>Total</td><td>14</td><td>1</td><td>7</td><td>3</td><td>25</td></tr></tbody>
+                </table>
+            </div>
+    
+            </div>
+        </div>
+    
+        <div class="grupo" id="SANDY">
+            <div class="grupo-titulo">SANDY - S3 - S4</div>
+            <div class="tablas-container">
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">1. Vista Principal</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>GESTIONES </th><th> N VLL</th><th> N PDP </th><th>MONTO PDP</th><th>% CIERRE </th></tr></thead><tbody><tr><td>CHRISTIAN ALBUJAR</td><td>31</td><td>1</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>JOANA GIL</td><td>21</td><td>1</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>LISELY MERA</td><td>19</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>ROBERTO RODRIGUEZ</td><td>17</td><td>1</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>LUIS RUIZ</td><td>16</td><td>1</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>LYNDA PEREZ</td><td>15</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>NOEMI CHUQUILIN</td><td>15</td><td>2</td><td>1</td><td>300</td><td>10.0%</td></tr><tr><td>VERONICA HUARCA</td><td>13</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>LINDA TUESTA</td><td>13</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>GINA HUAMANI</td><td>13</td><td>2</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>Total general</td><td>173</td><td>8</td><td>1</td><td>300</td><td>1.1%</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">2. Vista por Tipificación</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>CAN</th><th>DES</th><th>GRB</th><th>ILC</th><th>MCT</th><th>NOC</th><th>NTT</th><th>PPC</th><th>REN</th><th>RPP</th><th>TAT</th><th>VLL</th><th>Total</th></tr></thead><tbody><tr><td>CHRISTIAN ALBUJAR</td><td></td><td>2</td><td>2</td><td>2</td><td>6</td><td>8</td><td>2</td><td></td><td></td><td></td><td>8</td><td>1</td><td>31</td></tr><tr><td>JOANA GIL</td><td></td><td></td><td></td><td></td><td>3</td><td>11</td><td></td><td></td><td></td><td></td><td>6</td><td>1</td><td>21</td></tr><tr><td>LISELY MERA</td><td>2</td><td></td><td></td><td></td><td>4</td><td>3</td><td></td><td></td><td>1</td><td></td><td>9</td><td></td><td>19</td></tr><tr><td>ROBERTO RODRIGUEZ</td><td></td><td></td><td></td><td></td><td>5</td><td>1</td><td></td><td></td><td>1</td><td></td><td>9</td><td>1</td><td>17</td></tr><tr><td>LUIS RUIZ</td><td></td><td>8</td><td></td><td></td><td>5</td><td></td><td></td><td></td><td></td><td></td><td>2</td><td>1</td><td>16</td></tr><tr><td>LYNDA PEREZ</td><td></td><td></td><td></td><td></td><td>4</td><td></td><td>5</td><td></td><td>1</td><td></td><td>5</td><td></td><td>15</td></tr><tr><td>NOEMI CHUQUILIN</td><td></td><td></td><td></td><td></td><td>4</td><td>1</td><td></td><td>1</td><td></td><td>1</td><td>6</td><td>2</td><td>15</td></tr><tr><td>VERONICA HUARCA</td><td></td><td></td><td></td><td></td><td>2</td><td></td><td></td><td></td><td>6</td><td></td><td>5</td><td></td><td>13</td></tr><tr><td>LINDA TUESTA</td><td></td><td></td><td></td><td></td><td>1</td><td></td><td></td><td></td><td>2</td><td></td><td>10</td><td></td><td>13</td></tr><tr><td>GINA HUAMANI</td><td>1</td><td></td><td></td><td></td><td>1</td><td>3</td><td></td><td></td><td></td><td>2</td><td>4</td><td>2</td><td>13</td></tr><tr><td>Total</td><td>3</td><td>10</td><td>2</td><td>2</td><td>35</td><td>27</td><td>7</td><td>1</td><td>11</td><td>3</td><td>64</td><td>8</td><td>173</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">3. Vista por Horas</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>7</th><th>8</th><th>Total</th></tr></thead><tbody><tr><td>CHRISTIAN ALBUJAR</td><td>25</td><td>6</td><td>31</td></tr><tr><td>JOANA GIL</td><td>13</td><td>8</td><td>21</td></tr><tr><td>LISELY MERA</td><td>11</td><td>8</td><td>19</td></tr><tr><td>ROBERTO RODRIGUEZ</td><td>12</td><td>5</td><td>17</td></tr><tr><td>LUIS RUIZ</td><td>9</td><td>7</td><td>16</td></tr><tr><td>LYNDA PEREZ</td><td>11</td><td>4</td><td>15</td></tr><tr><td>NOEMI CHUQUILIN</td><td>7</td><td>8</td><td>15</td></tr><tr><td>VERONICA HUARCA</td><td>7</td><td>6</td><td>13</td></tr><tr><td>LINDA TUESTA</td><td>8</td><td>5</td><td>13</td></tr><tr><td>GINA HUAMANI</td><td>9</td><td>4</td><td>13</td></tr><tr><td>Total</td><td>112</td><td>61</td><td>173</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">4. Vista PDP's por Vencer</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>27/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>JOANA GIL</td><td>3000</td><td></td><td>305</td><td>3305</td></tr><tr><td>NOEMI CHUQUILIN</td><td>300</td><td>1270</td><td>200</td><td>1770</td></tr><tr><td>LYNDA PEREZ</td><td>1235</td><td></td><td></td><td>1235</td></tr><tr><td>GINA HUAMANI</td><td></td><td></td><td>600</td><td>600</td></tr><tr><td>LUIS RUIZ</td><td>350</td><td>220</td><td></td><td>570</td></tr><tr><td>VERONICA HUARCA</td><td></td><td></td><td>400</td><td>400</td></tr><tr><td>ROBERTO RODRIGUEZ</td><td></td><td></td><td>375</td><td>375</td></tr><tr><td>LINDA TUESTA</td><td>200</td><td></td><td></td><td>200</td></tr><tr><td>Total</td><td>5085</td><td>1490</td><td>1880</td><td>8455</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">5. Cantidad de PDP's</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>27/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>NOEMI CHUQUILIN</td><td>1</td><td>1</td><td>1</td><td>3</td></tr><tr><td>LYNDA PEREZ</td><td>3</td><td></td><td></td><td>3</td></tr><tr><td>LUIS RUIZ</td><td>1</td><td>1</td><td></td><td>2</td></tr><tr><td>JOANA GIL</td><td>1</td><td></td><td>1</td><td>2</td></tr><tr><td>LINDA TUESTA</td><td>1</td><td></td><td></td><td>1</td></tr><tr><td>ROBERTO RODRIGUEZ</td><td></td><td></td><td>1</td><td>1</td></tr><tr><td>VERONICA HUARCA</td><td></td><td></td><td>1</td><td>1</td></tr><tr><td>GINA HUAMANI</td><td></td><td></td><td>1</td><td>1</td></tr><tr><td>Total</td><td>7</td><td>2</td><td>5</td><td>14</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">6. Vista de VLL</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>NOEMI CHUQUILIN</td><td>5</td><td>5</td><td>1</td><td>11</td></tr><tr><td>GINA HUAMANI</td><td>4</td><td>2</td><td>1</td><td>7</td></tr><tr><td>ROBERTO RODRIGUEZ</td><td>3</td><td>1</td><td></td><td>4</td></tr><tr><td>LUIS RUIZ</td><td>2</td><td>1</td><td></td><td>3</td></tr><tr><td>JOANA GIL</td><td>1</td><td>2</td><td></td><td>3</td></tr><tr><td>VERONICA HUARCA</td><td></td><td>2</td><td></td><td>2</td></tr><tr><td>LINDA TUESTA</td><td></td><td>1</td><td>1</td><td>2</td></tr><tr><td>LYNDA PEREZ</td><td>2</td><td></td><td></td><td>2</td></tr><tr><td>LISELY MERA</td><td>1</td><td></td><td>1</td><td>2</td></tr><tr><td>CHRISTIAN ALBUJAR</td><td></td><td>1</td><td></td><td>1</td></tr><tr><td>Total</td><td>18</td><td>15</td><td>4</td><td>37</td></tr></tbody>
+                </table>
+            </div>
+    
+            </div>
+        </div>
+    
+        <div class="grupo" id="MELINA">
+            <div class="grupo-titulo">MELINA - S3 - S4</div>
+            <div class="tablas-container">
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">1. Vista Principal</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>GESTIONES </th><th> N VLL</th><th> N PDP </th><th>MONTO PDP</th><th>% CIERRE </th></tr></thead><tbody><tr><td>JANETH PORTOCARRERO</td><td>9</td><td>1</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>JUAN LOZA</td><td>20</td><td>1</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>NARDIA URPIS</td><td>26</td><td>1</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>ANGELO SUAREZ</td><td>9</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>GIULIANA QUISPE</td><td>25</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>DARYL FERREL</td><td>9</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>MAYRA AVALOS</td><td>23</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>CARLOS CALAGUA</td><td>17</td><td>2</td><td>1</td><td>260</td><td>6.2%</td></tr><tr><td>GERSON LAZARO</td><td>19</td><td>0</td><td>1</td><td>800</td><td>7.7%</td></tr><tr><td>JACQUELINE COLLAHUACHO</td><td>22</td><td>0</td><td>0</td><td>0</td><td>0.0%</td></tr><tr><td>Total general</td><td>179</td><td>5</td><td>2</td><td>1060</td><td>1.7%</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">2. Vista por Tipificación</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>CAN</th><th>DES</th><th>GRB</th><th>MCT</th><th>NOC</th><th>NTT</th><th>PPC</th><th>REN</th><th>RPP</th><th>TAT</th><th>VLL</th><th>Total</th></tr></thead><tbody><tr><td>NARDIA URPIS</td><td>1</td><td></td><td></td><td>6</td><td></td><td></td><td></td><td>11</td><td>1</td><td>6</td><td>1</td><td>26</td></tr><tr><td>GIULIANA QUISPE</td><td></td><td>3</td><td></td><td>2</td><td>1</td><td>5</td><td></td><td>9</td><td></td><td>5</td><td></td><td>25</td></tr><tr><td>MAYRA AVALOS</td><td></td><td></td><td></td><td>8</td><td></td><td></td><td></td><td>3</td><td></td><td>12</td><td></td><td>23</td></tr><tr><td>JACQUELINE COLLAHUACHO</td><td></td><td></td><td></td><td>4</td><td>6</td><td>1</td><td></td><td></td><td></td><td>11</td><td></td><td>22</td></tr><tr><td>JUAN LOZA</td><td></td><td></td><td>1</td><td>6</td><td>2</td><td>1</td><td></td><td></td><td></td><td>9</td><td>1</td><td>20</td></tr><tr><td>GERSON LAZARO</td><td></td><td></td><td></td><td>1</td><td>5</td><td></td><td>1</td><td></td><td></td><td>12</td><td></td><td>19</td></tr><tr><td>CARLOS CALAGUA</td><td>1</td><td></td><td></td><td>1</td><td></td><td></td><td>1</td><td></td><td>1</td><td>11</td><td>2</td><td>17</td></tr><tr><td>ANGELO SUAREZ</td><td></td><td></td><td></td><td>2</td><td></td><td></td><td></td><td>1</td><td></td><td>6</td><td></td><td>9</td></tr><tr><td>JANETH PORTOCARRERO</td><td></td><td></td><td></td><td>1</td><td></td><td>2</td><td></td><td>4</td><td></td><td>1</td><td>1</td><td>9</td></tr><tr><td>DARYL FERREL</td><td></td><td></td><td></td><td>2</td><td></td><td></td><td></td><td></td><td>1</td><td>6</td><td></td><td>9</td></tr><tr><td>Total</td><td>2</td><td>3</td><td>1</td><td>33</td><td>14</td><td>9</td><td>2</td><td>28</td><td>3</td><td>79</td><td>5</td><td>179</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">3. Vista por Horas</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>7</th><th>8</th><th>Total</th></tr></thead><tbody><tr><td>NARDIA URPIS</td><td>16</td><td>10</td><td>26</td></tr><tr><td>GIULIANA QUISPE</td><td>18</td><td>7</td><td>25</td></tr><tr><td>MAYRA AVALOS</td><td>14</td><td>9</td><td>23</td></tr><tr><td>JACQUELINE COLLAHUACHO</td><td>12</td><td>10</td><td>22</td></tr><tr><td>JUAN LOZA</td><td>12</td><td>8</td><td>20</td></tr><tr><td>GERSON LAZARO</td><td>10</td><td>9</td><td>19</td></tr><tr><td>CARLOS CALAGUA</td><td>12</td><td>5</td><td>17</td></tr><tr><td>ANGELO SUAREZ</td><td>7</td><td>2</td><td>9</td></tr><tr><td>JANETH PORTOCARRERO</td><td>8</td><td>1</td><td>9</td></tr><tr><td>DARYL FERREL</td><td>5</td><td>4</td><td>9</td></tr><tr><td>Total</td><td>114</td><td>65</td><td>179</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">4. Vista PDP's por Vencer</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>26/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>GIULIANA QUISPE</td><td>600</td><td>1500</td><td>637</td><td>800</td><td></td><td>3537</td></tr><tr><td>GERSON LAZARO</td><td>2000</td><td></td><td></td><td></td><td>460</td><td>2460</td></tr><tr><td>JANETH PORTOCARRERO</td><td></td><td></td><td></td><td>300</td><td>850</td><td>1150</td></tr><tr><td>MAYRA AVALOS</td><td>920</td><td></td><td></td><td></td><td>215</td><td>1135</td></tr><tr><td>CARLOS CALAGUA</td><td>850</td><td></td><td></td><td>260</td><td></td><td>1110</td></tr><tr><td>DARYL FERREL</td><td>433</td><td></td><td></td><td>605</td><td></td><td>1038</td></tr><tr><td>JUAN LOZA</td><td>200</td><td>392</td><td></td><td></td><td></td><td>592</td></tr><tr><td>ANGELO SUAREZ</td><td></td><td></td><td></td><td>450</td><td></td><td>450</td></tr><tr><td>YENNY INGA</td><td></td><td></td><td></td><td></td><td>430</td><td>430</td></tr><tr><td>JACQUELINE COLLAHUACHO</td><td></td><td>290</td><td></td><td></td><td></td><td>290</td></tr><tr><td>NARDIA URPIS</td><td></td><td></td><td></td><td></td><td>260</td><td>260</td></tr><tr><td>Total</td><td>5003</td><td>2182</td><td>637</td><td>2415</td><td>2215</td><td>12452</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">5. Cantidad de PDP's</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>25/10/2025</th><th>26/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>GIULIANA QUISPE</td><td>1</td><td>1</td><td>1</td><td>1</td><td></td><td>4</td></tr><tr><td>CARLOS CALAGUA</td><td>2</td><td></td><td></td><td>1</td><td></td><td>3</td></tr><tr><td>MAYRA AVALOS</td><td>2</td><td></td><td></td><td></td><td>1</td><td>3</td></tr><tr><td>JANETH PORTOCARRERO</td><td></td><td></td><td></td><td>1</td><td>2</td><td>3</td></tr><tr><td>DARYL FERREL</td><td>1</td><td></td><td></td><td>2</td><td></td><td>3</td></tr><tr><td>JUAN LOZA</td><td>1</td><td>1</td><td></td><td></td><td></td><td>2</td></tr><tr><td>GERSON LAZARO</td><td>1</td><td></td><td></td><td></td><td>1</td><td>2</td></tr><tr><td>JACQUELINE COLLAHUACHO</td><td></td><td>1</td><td></td><td></td><td></td><td>1</td></tr><tr><td>ANGELO SUAREZ</td><td></td><td></td><td></td><td>1</td><td></td><td>1</td></tr><tr><td>NARDIA URPIS</td><td></td><td></td><td></td><td></td><td>1</td><td>1</td></tr><tr><td>YENNY INGA</td><td></td><td></td><td></td><td></td><td>1</td><td>1</td></tr><tr><td>Total</td><td>8</td><td>3</td><td>1</td><td>6</td><td>6</td><td>24</td></tr></tbody>
+                </table>
+            </div>
+    
+            <div class="tabla-item">
+                <div class="tabla-titulo">6. Vista de VLL</div>
+                <table class="tabla-contenido">
+    <thead><tr><th>ASESOR</th><th>24/10/2025</th><th>27/10/2025</th><th>28/10/2025</th><th>Total</th></tr></thead><tbody><tr><td>JACQUELINE COLLAHUACHO</td><td>3</td><td>5</td><td></td><td>8</td></tr><tr><td>JUAN LOZA</td><td>2</td><td>4</td><td></td><td>6</td></tr><tr><td>CARLOS CALAGUA</td><td>2</td><td>2</td><td>1</td><td>5</td></tr><tr><td>GERSON LAZARO</td><td>2</td><td>1</td><td></td><td>3</td></tr><tr><td>DARYL FERREL</td><td>1</td><td></td><td>1</td><td>2</td></tr><tr><td>GIULIANA QUISPE</td><td>1</td><td>1</td><td></td><td>2</td></tr><tr><td>NARDIA URPIS</td><td></td><td>1</td><td></td><td>1</td></tr><tr><td>JANETH PORTOCARRERO</td><td>1</td><td></td><td></td><td>1</td></tr><tr><td>MAYRA AVALOS</td><td></td><td>1</td><td></td><td>1</td></tr><tr><td>ANGELO SUAREZ</td><td>1</td><td></td><td></td><td>1</td></tr><tr><td>Total</td><td>13</td><td>15</td><td>2</td><td>30</td></tr></tbody>
+                </table>
+            </div>
+    
+            </div>
+        </div>
+    
+        <div class="footer">
+            <p>Generado automáticamente • Sistema de Producción DIR • Última actualización: 24/10/2025 09:46</p>
+        </div>
+    </div>
+    
+    <script>
+        function toggleNav() {
+            const nav = document.querySelector('.nav');
+            nav.style.display = nav.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
