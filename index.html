@@ -193,20 +193,25 @@
             color: white;
             font-size: 0.9em;
         }
-        @media (max-width: 768px) {
-            .tablas-container {
-                grid-template-columns: 1fr;
-            }
-            .nav {
-                position: static;
-                transform: none;
-                margin-bottom: 20px;
-                max-height: none;
-            }
-            .container {
-                padding: 10px;
-            }
+          @media (max-width: 768px) {
+        .tablas-container {
+            grid-template-columns: 1fr;
         }
+        .nav {
+            position: static;
+            transform: none;
+            margin-bottom: 20px;
+            max-height: none;
+        }
+        .container {
+            padding: 10px;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+        body {
+            overflow-x: hidden;
+        }
+    }
     </style>
 </head>
 <body>
@@ -615,7 +620,7 @@
         </div>
     
         <div class="footer">
-            <p>Generado automáticamente • Sistema de Producción DIR • Última actualización: 24/10/2025 12:53</p>
+            <p>Generado automáticamente • Sistema de Producción DIR • Última actualización: 24/10/2025 12:59</p>
         </div>
     </div>
     
