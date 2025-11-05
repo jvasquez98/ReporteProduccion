@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Consolidado de Producción - {fecha_reporte}</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #7f8c8d;
+            font-size: 1.2em;
+        }
+        .grupo {
+            background: white;
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .grupo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        .grupo-titulo {
+            font-size: 2em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .grupo-titulo::before {
+            content: "👤";
+            font-size: 1.5em;
+        }
+        .tablas-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .tabla-item {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .tabla-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+        }
+        .tabla-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .tabla-boton {
+            width: 100%;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .tabla-boton:hover {
+            background: linear-gradient(135deg, #2980b9, #1f618d);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .tabla-boton::after {
+            content: "▼";
+            font-size: 0.9em;
+            transition: transform 0.3s ease;
+        }
+        .tabla-boton.active::after {
+            transform: rotate(180deg);
+        }
+        .tabla-contenido {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95em;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 15px;
+            display: none;
+        }
+        .tabla-contenido.mostrar {
+            display: table;
+        }
+        th {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+        td {
+            padding: 8px 8px;
+            border-bottom: 1px solid #ecf0f1;
+            color: #2c3e50;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tr:hover {
+            background-color: #e3f2fd;
+            transition: background-color 0.2s ease;
+        }
+        .nav {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .nav h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        .nav a {
+            display: block;
+            margin: 8px 0;
+            color: #3498db;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .nav a:hover {
+            background: #3498db;
+            color: white;
+            transform: translateX(-5px);
+        }
+        .nav-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1001;
+            font-size: 1.2em;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: white;
+            font-size: 0.9em;
+        }
+        @media (max-width: 768px) {
+            .tablas-container {
+                grid-template-columns: 1fr;
+            }
+            .nav {
+                position: static;
+                transform: none;
+                margin-bottom: 20px;
+                max-height: none;
+            }
+            .container {
+                padding: 10px;
+                max-height: 100vh;
+                overflow-y: auto;
+            }
+            body {
+                overflow-x: hidden;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+    <div class="container">
+        <div class="header">
+            <h1>REPORTE CONSOLIDADO DE PRODUCCIÓN - {fecha_reporte}</h1>
+            <p>Reporte completo de métricas y desempeño por colaborador con corte a las {hora_reporte}</p>
+        </div>
+
+        <div class="nav">
+            <h3>🔍 Navegación Rápida</h3>
+            {navegacion}
+        </div>
+
+        {contenido_principal}
+
+        <div class="footer">
+            <p>Generado automáticamente • Sistema de Producción DIR • Última actualización: {fecha_actualizacion}</p>
+        </div>
+    </div>
+    
+    <script>
+        function toggleNav() {
+            const nav = document.querySelector('.nav');
+            nav.style.display = nav.style.display === 'none' ? 'block' : 'none';
+        }
+        
+        function toggleTabla(boton) {
+            // Alternar clase activa en el botón
+            boton.classList.toggle('active');
+            
+            // Encontrar la tabla asociada al botón
+            const tabla = boton.nextElementSibling;
+            
+            // Alternar la visualización de la tabla
+            if (tabla.classList.contains('mostrar')) {
+                tabla.classList.remove('mostrar');
+            } else {
+                tabla.classList.add('mostrar');
+            }
+        }
+    </script>
+</body>
+</html>
