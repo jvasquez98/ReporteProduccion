@@ -118,7 +118,7 @@
     }
 
     .firma-img{
-      max-width: 230px;  /* ajusta tamaño firma */
+      max-width: 190px;
       height:auto;
       display:block;
       margin: 0 auto 6px;
@@ -136,14 +136,26 @@
     }
 
     .nota{
+      margin-left: -2cm;
+      margin-right: -2cm;
+      width: calc(100% + 4cm);
+      box-sizing: border-box;
       margin-top: 18px;
+      background: #f2f2f2;
+      border-top: 1px solid #cfcfcf;
+      border-bottom: 1px solid #cfcfcf;
+      padding: 10px calc(2cm + 12px);
     }
-
+    
     .nota small{
       display:block;
-      color:#666;
+      margin:0;
+      padding:0;
+      border:0 !important;
+      background:transparent !important;
+      color:#333;
       font-size:8.25pt;
-      line-height:1.35;
+      line-height:1.4;
       text-align:justify;
     }
 
@@ -336,7 +348,45 @@
   <section class="panel" id="panelFormulario">
     <form id="formCarta">
       <div class="grid">
-        <div class="field field-creditos">
+        <div class="field">
+      <label for="DNI">DNI</label>
+      <input id="DNI" type="text" value="" placeholder="Ingresa DNI">
+    </div>
+<div class="field">
+          <label for="FECHA_HOY">Fecha de emisión</label>
+          <input id="FECHA_HOY" type="date" value="">
+        </div>
+<div class="field">
+      <label for="NOMBRE">Nombre completo</label>
+      <input id="NOMBRE" type="text" value="" placeholder="Ingresa Nombre completo">
+    </div>
+<div class="field">
+          <label for="FECHA_PAGO">Fecha de pago</label>
+          <input id="FECHA_PAGO" type="date" value="">
+        </div>
+<div class="field">
+          <label for="ENTIDAD">Entidad (banco / empresa)</label>
+          <select id="ENTIDAD">
+            <option value="">Selecciona una entidad...</option>
+<option value="Caja Municipal de Ahorro y Crédito de Arequipa S.A.">Caja Municipal de Ahorro y Crédito de Arequipa S.A.</option>
+<option value="Banco de la Nación">Banco de la Nación</option>
+<option value="Banco BBVA Perú">Banco BBVA Perú</option>
+<option value="Financiera Credinka S.A.">Financiera Credinka S.A.</option>
+<option value="Caja Rural de Ahorro y Crédito del Centro S.A.">Caja Rural de Ahorro y Crédito del Centro S.A.</option>
+<option value="Banco Internacional del Perú S.A.A. – Interbank">Banco Internacional del Perú S.A.A. – Interbank</option>
+<option value="Caja Rural de Ahorro y Crédito Los Andes S.A.">Caja Rural de Ahorro y Crédito Los Andes S.A.</option>
+<option value="Mibanco – Banco de la Microempresa S.A.">Mibanco – Banco de la Microempresa S.A.</option>
+<option value="Financiera ProEmpresa S.A.">Financiera ProEmpresa S.A.</option>
+<option value="Financiera Qaqap S.A.C.">Financiera Qaqap S.A.C.</option>
+<option value="Caja Municipal de Ahorro y Crédito de Sullana S.A.">Caja Municipal de Ahorro y Crédito de Sullana S.A.</option>
+<option value="Banco Scotiabank Perú S.A.A.">Banco Scotiabank Perú S.A.A.</option>
+          </select>
+        </div>
+<div class="field">
+          <label for="FECHA_CASTIGO">Fecha de cesión / castigo</label>
+          <input id="FECHA_CASTIGO" type="date" value="">
+        </div>
+<div class="field field-creditos">
           <div class="creditos-header">
             <label>Créditos (lista o códigos)</label>
 
@@ -360,52 +410,6 @@
             <input id="CREDITOS_5" type="text" placeholder="Crédito 5">
           </div>
         </div>
-<div class="field">
-      <label for="DNI">DNI</label>
-      <input id="DNI" type="text" value="" placeholder="Ingresa DNI">
-    </div>
-<div class="field">
-          <label for="ENTIDAD">Entidad (banco / empresa)</label>
-          <select id="ENTIDAD">
-            <option value="">Selecciona una entidad...</option>
-<option value="Caja Municipal de Ahorro y Crédito de Arequipa S.A.">Caja Municipal de Ahorro y Crédito de Arequipa S.A.</option>
-<option value="Banco de la Nación">Banco de la Nación</option>
-<option value="Banco BBVA Perú">Banco BBVA Perú</option>
-<option value="Financiera Credinka S.A.">Financiera Credinka S.A.</option>
-<option value="Caja Rural de Ahorro y Crédito del Centro S.A.">Caja Rural de Ahorro y Crédito del Centro S.A.</option>
-<option value="Banco Internacional del Perú S.A.A. – Interbank">Banco Internacional del Perú S.A.A. – Interbank</option>
-<option value="Caja Rural de Ahorro y Crédito Los Andes S.A.">Caja Rural de Ahorro y Crédito Los Andes S.A.</option>
-<option value="Mibanco – Banco de la Microempresa S.A.">Mibanco – Banco de la Microempresa S.A.</option>
-<option value="Financiera ProEmpresa S.A.">Financiera ProEmpresa S.A.</option>
-<option value="Financiera Qaqap S.A.C.">Financiera Qaqap S.A.C.</option>
-<option value="Caja Municipal de Ahorro y Crédito de Sullana S.A.">Caja Municipal de Ahorro y Crédito de Sullana S.A.</option>
-<option value="Banco Scotiabank Perú S.A.A.">Banco Scotiabank Perú S.A.A.</option>
-          </select>
-        </div>
-<div class="field">
-          <label for="FECHA_CASTIGO">Fecha de cesión / castigo</label>
-          <input id="FECHA_CASTIGO" type="date" value="">
-        </div>
-<div class="field">
-          <label for="FECHA_HOY">Fecha de emisión</label>
-          <input id="FECHA_HOY" type="date" value="">
-        </div>
-<div class="field">
-          <label for="FECHA_PAGO">Fecha de pago</label>
-          <input id="FECHA_PAGO" type="date" value="">
-        </div>
-<div class="field">
-      <label for="NOMBRE">Nombre completo</label>
-      <input id="NOMBRE" type="text" value="" placeholder="Ingresa Nombre completo">
-    </div>
-<div class="field">
-      <label for="plural">plural</label>
-      <input id="plural" type="text" value="" placeholder="Ingresa plural">
-    </div>
-<div class="field">
-      <label for="singular">singular</label>
-      <input id="singular" type="text" value="" placeholder="Ingresa singular">
-    </div>
       </div>
 
       <div class="actions">
@@ -463,12 +467,11 @@
     <section class="firma">
       <img class="firma-img" src="images/FIRMA_nathaly.jpg" alt="Firma">
       <div class="firma-nombre">Nathaly Isabel Jimenez Quispe</div>
-      <div class="firma-cargo">Apoderada</div>
     </section>
 
     <section class="nota">
       <small>
-        (1) Para concluir cualquier proceso judicial deberá interponerse el trámite correspondiente, que ayudará al cliente a reducir el trámite de manera idónea. Por el lado de la hipoteca se tendrá en cuenta que ha sido judicial, además, se solicita la cuenta de levantamiento del gravamen.
+        (1) Para concluir cualquier proceso judicial Expértis entregará la documentación correspondiente, que ayudaran al cliente a realizar el trámite de manera idónea. Por el lado de la hipoteca teniendo en cuenta que no ha sido judicializada, Expértis tramitará con la entidad transferente la minuta de levantamiento según corresponda; el plazo de entrega corresponderá según lo disponga la entidad transferente. NOTA: A partir de la 2ºda solicitud, la constancia de no adeudo tendrá un costo.
       </small>
     </section>
 
@@ -476,7 +479,7 @@
   </template>
 
 <script>
-  const placeholders = ["CREDITOS", "DNI", "ENTIDAD", "FECHA_CASTIGO", "FECHA_HOY", "FECHA_PAGO", "NOMBRE", "plural", "singular"];
+  const placeholders = ["CREDITOS", "DNI", "ENTIDAD", "FECHA_CASTIGO", "FECHA_HOY", "FECHA_PAGO", "NOMBRE"];
   const creditosCount = document.getElementById('CREDITOS_COUNT');
   const creditosContainer = document.getElementById('CREDITOS_CONTAINER');
   const panelFormulario = document.getElementById('panelFormulario');
