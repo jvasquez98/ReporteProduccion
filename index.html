@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="es">
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DOCUMENTOS FAST</title>
+  <title>CARTA-DE-NO-ADEUDO_XXXXXXXX</title>
   <style>
     /* =======================
        CONFIGURACIÓN GLOBAL
@@ -16,7 +17,7 @@
     body{
       margin:0;
       background:#f5f5f5;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "Noto Sans", Arial, Helvetica, sans-serif; /* ✅ */
       line-height:1.6;
       color:#222;
     }
@@ -27,41 +28,41 @@
     .hoja{
       width:21.59cm;
       height:27.94cm;
-
       margin:40px auto;
       background:#fff;
-
-      /* márgenes internos del documento */
-      padding:2.5cm 2cm;
-
+    
+      /* ✅ deja espacio para el header “tipo Word” */
+      padding:3.6cm 2cm 2.5cm;
+    
       box-sizing:border-box;
       position:relative;
-
-      /* evita crecimiento por contenido */
       overflow:hidden;
-
-      /* elimina estilos web */
       border-radius:0;
       box-shadow:none;
     }
-
-    /* =======================
-       ENCABEZADO CON LOGO
-    ======================= */
+    
+    /* ✅ HEADER REAL (arriba, fuera del flujo) */
     .doc-header{
-      margin-bottom: 6px;
+      position:absolute;
+      top:1.2cm;
+      left:2cm;
+      right:2cm;
+    
+      margin:0;
+      opacity:.78;     /* ✅ menos sólido */
     }
-
+    
+    /* tu layout actual sirve */
     .header-top{
       display:flex;
       justify-content:flex-end;
       align-items:flex-start;
-      margin-bottom: 6px;
+      margin-bottom:10px;
     }
-
+    
     .logo{
-      max-width: 150px;   /* ajusta si lo quieres más grande/pequeño */
-      height: auto;
+      max-width:150px;
+      height:auto;
       display:block;
     }
 
@@ -71,26 +72,30 @@
     .fecha{
       text-align:right;
       white-space:nowrap;
-      font-size:11px;
+      font-size:8.64pt;
+      color:#555;
+      letter-spacing:.2px;
+      font-style: italic;
+      margin-bottom:10px;
     }
 
     .titulo{
       text-align:center;
-      margin:18px 0 26px;
+      margin:50px 0 26px;
       padding:10px 14px;
-      font-weight:700;
-      font-size:20px;
+      font-weight:400;
+      font-size:15pt;
       text-decoration:underline;
     }
 
     .saludo{
       margin:10px 0 18px;
       font-weight:700;
-      font-size:11.5px;
+      font-size:10.5pt;
     }
 
     .cuerpo{
-      font-size:11.5px;
+      font-size:9.75pt;
     }
 
     .cuerpo p{
@@ -100,7 +105,8 @@
 
     .despedida{
       margin-top:24px;
-      font-size:11.5px;
+      font-size:10.5pt;
+      text-align:right;
     }
 
     /* =======================
@@ -136,7 +142,7 @@
     .nota small{
       display:block;
       color:#666;
-      font-size:10px;
+      font-size:8.25pt;
       line-height:1.35;
       text-align:justify;
     }
@@ -377,20 +383,28 @@
           </select>
         </div>
 <div class="field">
-      <label for="FECHA_CASTIGO">Fecha de cesión / castigo</label>
-      <input id="FECHA_CASTIGO" type="text" value="" placeholder="Ingresa Fecha de cesión / castigo">
-    </div>
+          <label for="FECHA_CASTIGO">Fecha de cesión / castigo</label>
+          <input id="FECHA_CASTIGO" type="date" value="">
+        </div>
 <div class="field">
-      <label for="FECHA_HOY">Fecha de emisión</label>
-      <input id="FECHA_HOY" type="text" value="" placeholder="Ingresa Fecha de emisión">
-    </div>
+          <label for="FECHA_HOY">Fecha de emisión</label>
+          <input id="FECHA_HOY" type="date" value="">
+        </div>
 <div class="field">
-      <label for="FECHA_PAGO">Fecha de pago</label>
-      <input id="FECHA_PAGO" type="text" value="" placeholder="Ingresa Fecha de pago">
-    </div>
+          <label for="FECHA_PAGO">Fecha de pago</label>
+          <input id="FECHA_PAGO" type="date" value="">
+        </div>
 <div class="field">
       <label for="NOMBRE">Nombre completo</label>
       <input id="NOMBRE" type="text" value="" placeholder="Ingresa Nombre completo">
+    </div>
+<div class="field">
+      <label for="plural">plural</label>
+      <input id="plural" type="text" value="" placeholder="Ingresa plural">
+    </div>
+<div class="field">
+      <label for="singular">singular</label>
+      <input id="singular" type="text" value="" placeholder="Ingresa singular">
     </div>
       </div>
 
@@ -414,7 +428,7 @@
         <img class="logo" src="images/LOGO_home.jpg" alt="Logo">
       </div>
 
-      <div class="fecha">
+          <div class="fecha">
         Santiago de Surco, {{FECHA_HOY}}
       </div>
     </header>
@@ -430,7 +444,7 @@
         Por medio de la presente, le informamos que EXPÉRTIS MASTER SERVICER AND COLLECTIONS S.A.C., identificada con R.U.C. Nº 20600558481, con domicilio en Av. Circunvalación del Club Golf Los Incas N°154 - Oficina 403, distrito de Santiago de Surco, provincia y departamento de Lima, debidamente representada por Nathaly Isabel Jimenez Quispe según poderes inscritos en la partida N° 13459121, ha adquirido los derechos de la cartera de crédito otorgado por {{ENTIDAD}}, con base en el contrato de transferencia de cartera suscrito el {{FECHA_CASTIGO}}.
       </p>
       <p>
-        Al respecto informamos que ├├el┤┤╞╞los╡╡ ├├crédito┤┤╞╞créditos╡╡ {{CREDITOS}} ├├correspondiente┤┤╞╞correspondientes╡╡ al Sr.(a) {{NOMBRE}}, identificado(a) con DNI N° {{DNI}}, ├├ha┤┤ ╞╞han╡╡ sido ├├cancelado┤┤ ╞╞cancelados╡╡ en su totalidad el día {{FECHA_PAGO}}, no existiendo a la fecha saldo pendiente de pago, por lo que se da por cancelada la deuda. Cabe mencionar que si ├├el┤┤ ╞╞los╡╡ ├├crédito┤┤ ╞╞créditos╡╡ en mención ├├cuenta┤┤ ╞╞cuentan╡╡ con un proceso judicial será responsabilidad única y exclusivamente del cliente asumir y realizar de manera total con todas las gestiones y los gastos notariales, registrales, tributarios y otros pertinentes que originen la formalización de la conclusión del proceso judicial, levantamiento de embargo y/o levantamiento de hipoteca¹.
+        Al respecto informamos que {{singular}}el{{/singular}}{{plural}}los{{/plural}} {{singular}}crédito{{/singular}}{{plural}}créditos{{/plural}} {{CREDITOS}} {{singular}}correspondiente{{/singular}}{{plural}}correspondientes{{/plural}} al Sr.(a) {{NOMBRE}}, identificado(a) con DNI N° {{DNI}}, {{singular}}ha{{/singular}} {{plural}}han{{/plural}} sido {{singular}}cancelado{{/singular}} {{plural}}cancelados{{/plural}} en su totalidad el día {{FECHA_PAGO}}, no existiendo a la fecha saldo pendiente de pago, por lo que se da por cancelada la deuda. Cabe mencionar que si {{singular}}el{{/singular}} {{plural}}los{{/plural}} {{singular}}crédito{{/singular}} {{plural}}créditos{{/plural}} en mención {{singular}}cuenta{{/singular}} {{plural}}cuentan{{/plural}} con un proceso judicial será responsabilidad única y exclusivamente del cliente asumir y realizar de manera total con todas las gestiones y los gastos notariales, registrales, tributarios y otros pertinentes que originen la formalización de la conclusión del proceso judicial, levantamiento de embargo y/o levantamiento de hipoteca¹.
       </p>
       <p>
         Se expide en Lima el {{FECHA_HOY}}, y se imprimió en Lima el {{FECHA_HOY}}.
@@ -462,7 +476,7 @@
   </template>
 
 <script>
-  const placeholders = ["CREDITOS", "DNI", "ENTIDAD", "FECHA_CASTIGO", "FECHA_HOY", "FECHA_PAGO", "NOMBRE"];
+  const placeholders = ["CREDITOS", "DNI", "ENTIDAD", "FECHA_CASTIGO", "FECHA_HOY", "FECHA_PAGO", "NOMBRE", "plural", "singular"];
   const creditosCount = document.getElementById('CREDITOS_COUNT');
   const creditosContainer = document.getElementById('CREDITOS_CONTAINER');
   const panelFormulario = document.getElementById('panelFormulario');
@@ -470,13 +484,13 @@
   const renderCarta = document.getElementById('renderCarta');
   const tplCarta = document.getElementById('tplCarta');
   const btnEditar = document.getElementById('btnEditar');
-  const btnDescargar = document.getElementById('btnDescargar'); // ✅ aquí
   const form = document.getElementById('formCarta');
-
+  const MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre'];
+  
   function showForm() {
     panelFormulario.classList.remove('hidden');
     panelCarta.classList.add('hidden');
-    btnDescargar?.classList.add('hidden'); // ✅ seguro
+    btnImprimir?.classList.add('hidden'); // ✅ seguro
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -508,19 +522,21 @@
     }
     return vals.join(', ');
   }
-
+    
   function applySingularPluralByCreditos(text) {
-    const n = Number(document.getElementById('CREDITOS_COUNT')?.value || 1);
-
-    if (n === 1) {
-      text = text.replace(/╞╞[\s\S]*?╡╡/g, '');
-      text = text.replace(/├├/g, '').replace(/┤┤/g, '');
-    } else {
-      text = text.replace(/├├[\s\S]*?┤┤/g, '');
-      text = text.replace(/╞╞/g, '').replace(/╡╡/g, '');
-    }
-
-    return text;
+      const n = Number(document.getElementById('CREDITOS_COUNT')?.value || 1);
+      const isSingular = (n === 1);
+      const reSing = /\{\{\s*singular\s*\}\}([\s\S]*?)\{\{\s*\/singular\s*\}\}/gi;
+      const rePlur = /\{\{\s*plural\s*\}\}([\s\S]*?)\{\{\s*\/plural\s*\}\}/gi;
+    
+      if (isSingular) {
+        text = text.replace(reSing, '$1');
+        text = text.replace(rePlur, '');
+      } else {
+        text = text.replace(rePlur, '$1');
+        text = text.replace(reSing, '');
+      }
+      return text;
   }
 
   function applyTemplate(templateStr, data) {
@@ -528,6 +544,17 @@
       const v = data[key];
       return (v === undefined || v === null || v === '') ? match : String(v);
     });
+  }
+
+  function isoToLongEs(iso) {
+    if (!iso) return '';
+    const m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!m) return ''; // si viniera raro, no formatees
+    const yyyy = Number(m[1]);
+    const mm = Number(m[2]); // 1-12
+    const dd = Number(m[3]);
+    if (!yyyy || mm < 1 || mm > 12 || dd < 1 || dd > 31) return '';
+    return `${dd} de ${MONTHS_ES[mm - 1]} de ${yyyy}`;
   }
 
   function collectData() {
@@ -539,7 +566,11 @@
       }
       const el = document.getElementById(key);
       if (!el) continue;
-      data[key] = (el.value || '').trim();
+      let v = (el.value || '').trim();
+      if (key === 'FECHA_HOY' || key === 'FECHA_CASTIGO' || key === 'FECHA_PAGO') {
+        v = isoToLongEs(v);
+      }
+      data[key] = v;
     }
     return data;
   }
@@ -554,54 +585,17 @@
 
     if (('FECHA_HOY' in data) && !data.FECHA_HOY) {
       const d = new Date();
-      const dd = String(d.getDate()).padStart(2, '0');
-      const mm = String(d.getMonth() + 1).padStart(2, '0');
-      const yyyy = d.getFullYear();
-      data.FECHA_HOY = `${dd}/${mm}/${yyyy}`;
+      const iso =
+        `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      data.FECHA_HOY = isoToLongEs(iso);
     }
-
+    
     const tplRaw = tplCarta.innerHTML;
     const tplFixed = applySingularPluralByCreditos(tplRaw);
     renderCarta.innerHTML = applyTemplate(tplFixed, data);
 
     showCarta();
-    btnDescargar?.classList.remove('hidden'); // ✅ mostrar botón
-  });
-
-  btnDescargar?.addEventListener('click', async () => {
-    const hoja = document.querySelector('.hoja');
-    if (!hoja) return;
-
-    btnDescargar.classList.add('hidden');
-
-    const canvas = await html2canvas(hoja, {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: '#ffffff'
-    });
-
-    const imgData = canvas.toDataURL('image/jpeg', 0.95);
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({
-      orientation: 'portrait',
-      unit: 'pt',
-      format: 'letter'
-    });
-
-    const pageWidth = pdf.internal.pageSize.getWidth();
-    const pageHeight = pdf.internal.pageSize.getHeight();
-
-    const imgWidth = pageWidth;
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    const y = Math.max(0, (pageHeight - imgHeight) / 2);
-    pdf.addImage(imgData, 'JPEG', 0, y, imgWidth, imgHeight);
-
-    const dni = (document.getElementById('DNI')?.value || 'SIN_DNI').trim();
-    pdf.save(`Constancia_No_Adeudo_${dni}.pdf`);
-
-    btnDescargar.classList.remove('hidden');
+    btnImprimir?.classList.remove('hidden'); // ✅ mostrar botón
   });
 
   const btnImprimir = document.getElementById('btnImprimir');
@@ -609,7 +603,6 @@
     function showCarta() {
       panelFormulario.classList.add('hidden');
       panelCarta.classList.remove('hidden');
-      btnDescargar?.classList.remove('hidden');
       btnImprimir?.classList.remove('hidden');   // ✅
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
