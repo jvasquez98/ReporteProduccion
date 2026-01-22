@@ -2,158 +2,591 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DocoBr - Constancia de No Adeudo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DOCUMENTOS FAST</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 24px; max-width: 980px; margin: auto; background:#fafafa;}
-    h1 { margin: 0 0 6px 0; }
-    p.sub { margin: 0 0 18px 0; color:#555; }
-    .card { background:#fff; border:1px solid #e6e6e6; border-radius:14px; padding:16px; box-shadow: 0 2px 10px rgba(0,0,0,.04); }
-    .grid { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
-    label { font-weight:700; display:block; margin-bottom:6px; }
-    input, textarea, select {
-      width:100%; padding:10px; border:1px solid #cfcfcf; border-radius:10px; font-size:14px;
+    /* =======================
+       CONFIGURACIÓN GLOBAL
+    ======================= */
+    @page{
+      size: Letter;   /* 21.59 cm x 27.94 cm */
+      margin: 0;
+    }
+
+    body{
+      margin:0;
+      background:#f5f5f5;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height:1.6;
+      color:#222;
+    }
+
+    /* =======================
+       HOJA LETTER (DOCUMENTO)
+    ======================= */
+    .hoja{
+      width:21.59cm;
+      height:27.94cm;
+
+      margin:40px auto;
+      background:#fff;
+
+      /* márgenes internos del documento */
+      padding:2.5cm 2cm;
+
+      box-sizing:border-box;
+      position:relative;
+
+      /* evita crecimiento por contenido */
+      overflow:hidden;
+
+      /* elimina estilos web */
+      border-radius:0;
+      box-shadow:none;
+    }
+
+    /* =======================
+       ENCABEZADO CON LOGO
+    ======================= */
+    .doc-header{
+      margin-bottom: 6px;
+    }
+
+    .header-top{
+      display:flex;
+      justify-content:flex-end;
+      align-items:flex-start;
+      margin-bottom: 6px;
+    }
+
+    .logo{
+      max-width: 150px;   /* ajusta si lo quieres más grande/pequeño */
+      height: auto;
+      display:block;
+    }
+
+    /* =======================
+       CONTENIDO DE CARTA
+    ======================= */
+    .fecha{
+      text-align:right;
+      white-space:nowrap;
+      font-size:11px;
+    }
+
+    .titulo{
+      text-align:center;
+      margin:18px 0 26px;
+      padding:10px 14px;
+      font-weight:700;
+      font-size:20px;
+      text-decoration:underline;
+    }
+
+    .saludo{
+      margin:10px 0 18px;
+      font-weight:700;
+      font-size:11.5px;
+    }
+
+    .cuerpo{
+      font-size:11.5px;
+    }
+
+    .cuerpo p{
+      margin:0 0 14px;
+      text-align:justify;
+    }
+
+    .despedida{
+      margin-top:24px;
+      font-size:11.5px;
+    }
+
+    /* =======================
+       FIRMA (IMAGEN)
+    ======================= */
+    .firma{
+      margin-top: 46px;
+      text-align:center;
+    }
+
+    .firma-img{
+      max-width: 230px;  /* ajusta tamaño firma */
+      height:auto;
+      display:block;
+      margin: 0 auto 6px;
+    }
+
+    .firma-nombre{
+      font-weight:700;
+      font-size:11.5px;
+      margin-top:2px;
+    }
+
+    .firma-cargo{
+      font-size:11px;
+      margin-top:2px;
+    }
+
+    .nota{
+      margin-top: 18px;
+    }
+
+    .nota small{
+      display:block;
+      color:#666;
+      font-size:10px;
+      line-height:1.35;
+      text-align:justify;
+    }
+
+    /* =======================
+       UI FORMULARIO (SIN CAMBIOS)
+    ======================= */
+    .app-bar{
+      max-width:780px;
+      margin:40px auto 0;
+      padding:0 12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+
+    .brand{
+      font-weight:800;
+      letter-spacing:.2px;
+      color:#111;
+    }
+
+    .panel{
+      max-width:780px;
+      margin:12px auto 0;
+      background:#fff;
+      border-radius:10px;
+      box-shadow:0 8px 20px rgba(0,0,0,.08);
+      padding:20px 18px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+
+    @media (max-width: 760px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    /* =======================
+       FORM CONTROLS
+    ======================= */
+    .field label{
+      display:block;
+      font-size:12px;
+      color:#444;
+      margin-bottom:6px;
+      font-weight:700;
+    }
+
+    .field input,
+    .field textarea,
+    .field select{
+      width:100%;
+      box-sizing:border-box;
+      border:1px solid #ddd;
+      border-radius:8px;
+      padding:7px 12px;
+      font-size:14px;
       outline:none;
     }
-    input:focus, textarea:focus { border-color:#7aa7ff; box-shadow:0 0 0 3px rgba(122,167,255,.18); }
-    .actions { display:flex; gap:10px; margin-top:14px; align-items:center; flex-wrap:wrap;}
-    button {
-      padding:12px 16px; border:0; border-radius:12px; cursor:pointer; font-weight:800;
+
+    .mini-label{
+      display:block;
+      font-size:12px;
+      color:#444;
+      margin-bottom:6px;
+      font-weight:700;
     }
-    button.primary { background:#111827; color:#fff; }
-    button.secondary { background:#e5e7eb; color:#111827; }
-    .hint { font-size: 12px; color:#666; margin-top:6px; }
-    #msg { margin-top:12px; font-weight:700; }
-    .err { color:#b91c1c; }
-    .ok { color:#047857; }
-    .small { font-size:12px; color:#666; margin-top:8px;}
-    @media (max-width: 820px){
-      .grid { grid-template-columns: 1fr; }
+
+    /* =======================
+       CRÉDITOS
+    ======================= */
+    .creditos-toolbar{
+      display:flex;
+      gap:12px;
+      align-items:flex-end;
+      margin-bottom:10px;
     }
-  </style>
+
+    .creditos-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+
+    @media (max-width: 760px){
+      .creditos-grid{ grid-template-columns: 1fr; }
+    }
+
+    .creditos-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:10px;
+    }
+
+    .creditos-header > label{
+      font-size:12px;
+      font-weight:700;
+      color:#444;
+    }
+
+    .creditos-selector{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:12px;
+      color:#555;
+    }
+
+    .creditos-selector select{
+      width:auto;
+      padding:4px 8px;
+      font-size:12px;
+      border-radius:6px;
+    }
+
+    /* =======================
+       ACCIONES
+    ======================= */
+    .actions{
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      margin-top:14px;
+    }
+
+    button{
+      border:0;
+      border-radius:10px;
+      padding:10px 14px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .btn-primary{
+      background:#111;
+      color:#fff;
+    }
+
+    .btn-ghost{
+      background:#eee;
+      color:#111;
+    }
+
+    .hint{
+      font-size:12px;
+      color:#666;
+      margin:10px 0 0;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+</style>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
 <body>
-  <h1>Generador de Constancia de No Adeudo</h1>
-  <p class="sub">Rellena el formulario y genera el Word usando <code>main.docx</code>.</p>
 
-  <div class="card">
-    <div class="grid">
+  <div class="app-bar">
+      <div class="brand">DOCUMENTOS FAST</div>
       <div>
-        <label>Nombre completo ({{NOMBRE}})</label>
-        <input id="NOMBRE" placeholder="Ej: Juan Carlos Pérez López" />
+        <button class="btn-ghost" id="btnEditar" type="button">Editar datos</button>
+        <button class="btn-primary hidden" id="btnDescargar" type="button">DESCARGAR CARTA</button>
       </div>
-
-      <div>
-        <label>DNI ({{DNI}})</label>
-        <input id="DNI" inputmode="numeric" placeholder="Ej: 45879632" maxlength="8" />
-        <div class="hint">8 dígitos</div>
-      </div>
-
-      <div>
-        <label>Entidad ({{ENTIDAD}})</label>
-        <input id="ENTIDAD" placeholder="Ej: Banco XYZ S.A." />
-      </div>
-
-      <div>
-        <label>Crédito(s) ({{CREDITOS}})</label>
-        <input id="CREDITOS" placeholder="Ej: 123456 / 789012" />
-      </div>
-
-      <div>
-        <label>Fecha de castigo / transferencia ({{FECHA_CASTIGO}})</label>
-        <input id="FECHA_CASTIGO" type="date" />
-        <div class="hint">Se convertirá a formato: “21 de enero de 2026”.</div>
-      </div>
-
-      <div>
-        <label>Fecha de pago ({{FECHA_PAGO}})</label>
-        <input id="FECHA_PAGO" type="date" />
-      </div>
-
-      <div style="grid-column:1/-1;">
-        <label>Fecha de emisión ({{FECHA_HOY}})</label>
-        <input id="FECHA_HOY" type="date" />
-        <div class="hint">Opcional: si lo dejas vacío, se usará la fecha de hoy.</div>
-      </div>
-    </div>
-
-    <div class="actions">
-      <button class="primary" id="btnProcesar">PROCESAR</button>
-      <button class="secondary" id="btnLimpiar" type="button">LIMPIAR</button>
-    </div>
-
-    <div id="msg"></div>
-    <div class="small">El archivo generado también se guardará en <b>GENERADOS</b> (en tu carpeta DocoBr).</div>
   </div>
 
-  <script>
-    const $ = (id) => document.getElementById(id);
+  <!-- Formulario -->
+  <section class="panel" id="panelFormulario">
+    <form id="formCarta">
+      <div class="grid">
+        <div class="field field-creditos">
+          <div class="creditos-header">
+            <label>Créditos (lista o códigos)</label>
 
-    function setMsg(text, ok=true){
-      const el = $("msg");
-      el.textContent = text;
-      el.className = ok ? "ok" : "err";
+            <div class="creditos-selector">
+              <span>Cantidad</span>
+              <select id="CREDITOS_COUNT">
+                <option value="1" selected>1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="creditos-grid" id="CREDITOS_CONTAINER">
+            <input id="CREDITOS_1" type="text" placeholder="Crédito 1">
+            <input id="CREDITOS_2" type="text" placeholder="Crédito 2">
+            <input id="CREDITOS_3" type="text" placeholder="Crédito 3">
+            <input id="CREDITOS_4" type="text" placeholder="Crédito 4">
+            <input id="CREDITOS_5" type="text" placeholder="Crédito 5">
+          </div>
+        </div>
+<div class="field">
+      <label for="DNI">DNI</label>
+      <input id="DNI" type="text" value="" placeholder="Ingresa DNI">
+    </div>
+<div class="field">
+          <label for="ENTIDAD">Entidad (banco / empresa)</label>
+          <select id="ENTIDAD">
+            <option value="">Selecciona una entidad...</option>
+<option value="Caja Municipal de Ahorro y Crédito de Arequipa S.A.">Caja Municipal de Ahorro y Crédito de Arequipa S.A.</option>
+<option value="Banco de la Nación">Banco de la Nación</option>
+<option value="Banco BBVA Perú">Banco BBVA Perú</option>
+<option value="Financiera Credinka S.A.">Financiera Credinka S.A.</option>
+<option value="Caja Rural de Ahorro y Crédito del Centro S.A.">Caja Rural de Ahorro y Crédito del Centro S.A.</option>
+<option value="Banco Internacional del Perú S.A.A. – Interbank">Banco Internacional del Perú S.A.A. – Interbank</option>
+<option value="Caja Rural de Ahorro y Crédito Los Andes S.A.">Caja Rural de Ahorro y Crédito Los Andes S.A.</option>
+<option value="Mibanco – Banco de la Microempresa S.A.">Mibanco – Banco de la Microempresa S.A.</option>
+<option value="Financiera ProEmpresa S.A.">Financiera ProEmpresa S.A.</option>
+<option value="Financiera Qaqap S.A.C.">Financiera Qaqap S.A.C.</option>
+<option value="Caja Municipal de Ahorro y Crédito de Sullana S.A.">Caja Municipal de Ahorro y Crédito de Sullana S.A.</option>
+<option value="Banco Scotiabank Perú S.A.A.">Banco Scotiabank Perú S.A.A.</option>
+          </select>
+        </div>
+<div class="field">
+      <label for="FECHA_CASTIGO">Fecha de cesión / castigo</label>
+      <input id="FECHA_CASTIGO" type="text" value="" placeholder="Ingresa Fecha de cesión / castigo">
+    </div>
+<div class="field">
+      <label for="FECHA_HOY">Fecha de emisión</label>
+      <input id="FECHA_HOY" type="text" value="" placeholder="Ingresa Fecha de emisión">
+    </div>
+<div class="field">
+      <label for="FECHA_PAGO">Fecha de pago</label>
+      <input id="FECHA_PAGO" type="text" value="" placeholder="Ingresa Fecha de pago">
+    </div>
+<div class="field">
+      <label for="NOMBRE">Nombre completo</label>
+      <input id="NOMBRE" type="text" value="" placeholder="Ingresa Nombre completo">
+    </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" type="submit">GENERAR CARTA</button>
+      </div>
+
+      <p class="hint">Completa los campos y presiona <b>GENERAR CARTA</b> para ver la carta.</p>
+    </form>
+  </section>
+
+  <!-- Carta -->
+  <section id="panelCarta" class="hidden">
+    <div id="renderCarta"></div>
+  </section>
+
+  <template id="tplCarta">
+  <main class="hoja">
+    <header class="doc-header">
+      <div class="header-top">
+        <img class="logo" src="images/LOGO_home.jpg" alt="Logo">
+      </div>
+
+      <div class="fecha">
+        Santiago de Surco, {{FECHA_HOY}}
+      </div>
+    </header>
+
+    <div class="titulo">CONSTANCIA DE NO ADEUDO - {{DNI}}</div>
+
+    <section class="saludo">
+      <p>A QUIEN CORRESPONDA</p>
+    </section>
+
+    <section class="cuerpo">
+      <p>
+        Por medio de la presente, le informamos que EXPÉRTIS MASTER SERVICER AND COLLECTIONS S.A.C., identificada con R.U.C. Nº 20600558481, con domicilio en Av. Circunvalación del Club Golf Los Incas N°154 - Oficina 403, distrito de Santiago de Surco, provincia y departamento de Lima, debidamente representada por Nathaly Isabel Jimenez Quispe según poderes inscritos en la partida N° 13459121, ha adquirido los derechos de la cartera de crédito otorgado por {{ENTIDAD}}, con base en el contrato de transferencia de cartera suscrito el {{FECHA_CASTIGO}}.
+      </p>
+      <p>
+        Al respecto informamos que ├├el┤┤╞╞los╡╡ ├├crédito┤┤╞╞créditos╡╡ {{CREDITOS}} ├├correspondiente┤┤╞╞correspondientes╡╡ al Sr.(a) {{NOMBRE}}, identificado(a) con DNI N° {{DNI}}, ├├ha┤┤ ╞╞han╡╡ sido ├├cancelado┤┤ ╞╞cancelados╡╡ en su totalidad el día {{FECHA_PAGO}}, no existiendo a la fecha saldo pendiente de pago, por lo que se da por cancelada la deuda. Cabe mencionar que si ├├el┤┤ ╞╞los╡╡ ├├crédito┤┤ ╞╞créditos╡╡ en mención ├├cuenta┤┤ ╞╞cuentan╡╡ con un proceso judicial será responsabilidad única y exclusivamente del cliente asumir y realizar de manera total con todas las gestiones y los gastos notariales, registrales, tributarios y otros pertinentes que originen la formalización de la conclusión del proceso judicial, levantamiento de embargo y/o levantamiento de hipoteca¹.
+      </p>
+      <p>
+        Se expide en Lima el {{FECHA_HOY}}, y se imprimió en Lima el {{FECHA_HOY}}.
+      </p>
+      <p>
+        Sin otro particular, quedamos de ustedes.
+      </p>
+      <p>Atentamente,</p>
+    </section>
+
+    <section class="despedida">
+      <p>EXPÉRTIS MASTER SERVICER & COLLECTIONS SAC</p>
+    </section>
+
+    <!-- FIRMA (imagen) -->
+    <section class="firma">
+      <img class="firma-img" src="images/FIRMA_nathaly.jpg" alt="Firma">
+      <div class="firma-nombre">Nathaly Isabel Jimenez Quispe</div>
+      <div class="firma-cargo">Apoderada</div>
+    </section>
+
+    <section class="nota">
+      <small>
+        (1) Para concluir cualquier proceso judicial deberá interponerse el trámite correspondiente, que ayudará al cliente a reducir el trámite de manera idónea. Por el lado de la hipoteca se tendrá en cuenta que ha sido judicial, además, se solicita la cuenta de levantamiento del gravamen.
+      </small>
+    </section>
+
+  </main>
+  </template>
+
+<script>
+  const placeholders = ["CREDITOS", "DNI", "ENTIDAD", "FECHA_CASTIGO", "FECHA_HOY", "FECHA_PAGO", "NOMBRE"];
+  const creditosCount = document.getElementById('CREDITOS_COUNT');
+  const creditosContainer = document.getElementById('CREDITOS_CONTAINER');
+  const panelFormulario = document.getElementById('panelFormulario');
+  const panelCarta = document.getElementById('panelCarta');
+  const renderCarta = document.getElementById('renderCarta');
+  const tplCarta = document.getElementById('tplCarta');
+  const btnEditar = document.getElementById('btnEditar');
+  const btnDescargar = document.getElementById('btnDescargar'); // ✅ aquí
+  const form = document.getElementById('formCarta');
+
+  function showForm() {
+    panelFormulario.classList.remove('hidden');
+    panelCarta.classList.add('hidden');
+    btnDescargar?.classList.add('hidden'); // ✅ seguro
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showCarta() {
+    panelFormulario.classList.add('hidden');
+    panelCarta.classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function syncCreditosInputs() {
+    if (!creditosCount || !creditosContainer) return;
+    const n = Math.max(1, Math.min(5, Number(creditosCount.value || 1)));
+    for (let i = 1; i <= 5; i++) {
+      const inp = document.getElementById(`CREDITOS_${i}`);
+      if (!inp) continue;
+      const visible = i <= n;
+      inp.classList.toggle('hidden', !visible);
+      if (!visible) inp.value = '';
+    }
+  }
+
+  function buildCreditosString() {
+    if (!creditosCount) return '';
+    const n = Math.max(1, Math.min(5, Number(creditosCount.value || 1)));
+    const vals = [];
+    for (let i = 1; i <= n; i++) {
+      const v = (document.getElementById(`CREDITOS_${i}`)?.value || '').trim();
+      if (v) vals.push(v);
+    }
+    return vals.join(', ');
+  }
+
+  function applySingularPluralByCreditos(text) {
+    const n = Number(document.getElementById('CREDITOS_COUNT')?.value || 1);
+
+    if (n === 1) {
+      text = text.replace(/╞╞[\s\S]*?╡╡/g, '');
+      text = text.replace(/├├/g, '').replace(/┤┤/g, '');
+    } else {
+      text = text.replace(/├├[\s\S]*?┤┤/g, '');
+      text = text.replace(/╞╞/g, '').replace(/╡╡/g, '');
     }
 
-    function validar(data){
-      if(!data.NOMBRE.trim()) return "Falta NOMBRE";
-      if(!/^\d{8}$/.test(data.DNI.trim())) return "DNI debe tener 8 dígitos";
-      if(!data.ENTIDAD.trim()) return "Falta ENTIDAD";
-      if(!data.CREDITOS.trim()) return "Falta CREDITOS";
-      if(!data.FECHA_CASTIGO.trim()) return "Falta FECHA_CASTIGO";
-      if(!data.FECHA_PAGO.trim()) return "Falta FECHA_PAGO";
-      return null;
-    }
+    return text;
+  }
 
-    $("btnLimpiar").addEventListener("click", () => {
-      ["NOMBRE","DNI","ENTIDAD","CREDITOS","FECHA_CASTIGO","FECHA_PAGO","FECHA_HOY"].forEach(k => $(k).value = "");
-      setMsg("");
+  function applyTemplate(templateStr, data) {
+    return templateStr.replace(/\{\{\s*([A-Za-z0-9_]+)\s*\}\}/g, (match, key) => {
+      const v = data[key];
+      return (v === undefined || v === null || v === '') ? match : String(v);
     });
+  }
 
-    $("btnProcesar").addEventListener("click", async () => {
-      const data = {
-        NOMBRE: $("NOMBRE").value || "",
-        DNI: $("DNI").value || "",
-        ENTIDAD: $("ENTIDAD").value || "",
-        CREDITOS: $("CREDITOS").value || "",
-        FECHA_CASTIGO: $("FECHA_CASTIGO").value || "",
-        FECHA_PAGO: $("FECHA_PAGO").value || "",
-        FECHA_HOY: $("FECHA_HOY").value || ""
-      };
-
-      const err = validar(data);
-      if(err){ setMsg(err, false); return; }
-
-      setMsg("Generando documento...");
-
-      try{
-        const resp = await fetch("/procesar", {
-          method: "POST",
-          headers: {"Content-Type":"application/json"},
-          body: JSON.stringify(data)
-        });
-
-        if(!resp.ok){
-          const e = await resp.json().catch(()=>({}));
-          throw new Error(e.message || "Error desconocido");
-        }
-
-        const blob = await resp.blob();
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `Constancia_No_Adeudo_${data.DNI}.docx`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-
-        URL.revokeObjectURL(url);
-        setMsg("Listo. Se descargó el Word y se guardó copia en GENERADOS.");
-      }catch(e){
-        setMsg("Error: " + e.message, false);
+  function collectData() {
+    const data = {};
+    for (const key of placeholders) {
+      if (key === 'CREDITOS') {
+        data[key] = buildCreditosString();
+        continue;
       }
+      const el = document.getElementById(key);
+      if (!el) continue;
+      data[key] = (el.value || '').trim();
+    }
+    return data;
+  }
+
+  btnEditar?.addEventListener('click', showForm);
+  creditosCount?.addEventListener('change', syncCreditosInputs);
+  syncCreditosInputs();
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = collectData();
+
+    if (('FECHA_HOY' in data) && !data.FECHA_HOY) {
+      const d = new Date();
+      const dd = String(d.getDate()).padStart(2, '0');
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const yyyy = d.getFullYear();
+      data.FECHA_HOY = `${dd}/${mm}/${yyyy}`;
+    }
+
+    const tplRaw = tplCarta.innerHTML;
+    const tplFixed = applySingularPluralByCreditos(tplRaw);
+    renderCarta.innerHTML = applyTemplate(tplFixed, data);
+
+    showCarta();
+    btnDescargar?.classList.remove('hidden'); // ✅ mostrar botón
+  });
+
+  btnDescargar?.addEventListener('click', async () => {
+    const hoja = document.querySelector('.hoja');
+    if (!hoja) return;
+
+    btnDescargar.classList.add('hidden');
+
+    const canvas = await html2canvas(hoja, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#ffffff'
     });
-  </script>
+
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'pt',
+      format: 'letter'
+    });
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    const imgWidth = pageWidth;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    const y = Math.max(0, (pageHeight - imgHeight) / 2);
+    pdf.addImage(imgData, 'JPEG', 0, y, imgWidth, imgHeight);
+
+    const dni = (document.getElementById('DNI')?.value || 'SIN_DNI').trim();
+    pdf.save(`Constancia_No_Adeudo_${dni}.pdf`);
+
+    btnDescargar.classList.remove('hidden');
+  });
+</script>
+
 </body>
 </html>
