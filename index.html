@@ -295,6 +295,23 @@
     .hidden{
       display:none !important;
     }
+
+    @media print {
+      body { background: #fff !important; }
+      .app-bar, #panelFormulario { display: none !important; }
+      #panelCarta { display: block !important; }
+      .hoja {
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 21.59cm !important;
+        height: 27.94cm !important;
+      }
+    }
+    
+    @page {
+      size: Letter;
+      margin: 0;
+    }
 </style>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
@@ -305,7 +322,7 @@
       <div class="brand">DOCUMENTOS FAST</div>
       <div>
         <button class="btn-ghost" id="btnEditar" type="button">Editar datos</button>
-        <button class="btn-primary hidden" id="btnDescargar" type="button">DESCARGAR CARTA</button>
+        <button class="btn-primary hidden" id="btnImprimir" type="button">GUARDAR PDF</button>
       </div>
   </div>
 
@@ -585,6 +602,20 @@
     pdf.save(`Constancia_No_Adeudo_${dni}.pdf`);
 
     btnDescargar.classList.remove('hidden');
+  });
+
+  const btnImprimir = document.getElementById('btnImprimir');
+    
+    function showCarta() {
+      panelFormulario.classList.add('hidden');
+      panelCarta.classList.remove('hidden');
+      btnDescargar?.classList.remove('hidden');
+      btnImprimir?.classList.remove('hidden');   // ✅
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    btnImprimir?.addEventListener('click', () => {
+      window.print(); // ✅ El navegador permite "Guardar como PDF" con texto seleccionable
   });
 </script>
 
